@@ -28,6 +28,8 @@
 
 module.exports.routes = {
 
+  '/': 'MainController'
+
   // By default, your root route (aka home page) points to a view
   // located at `views/home/index.ejs`
   // 
@@ -39,28 +41,28 @@ module.exports.routes = {
   /*
   // But what if you want your home page to display
   // a signup form located at `views/user/signup.ejs`?
-  '/': {
-    view: 'user/signup'
-  }
+  //'/': {
+  // view: 'user/signup'
+  //}
 
 
   // Let's say you're building an email client, like Gmail
   // You might want your home route to serve an interface using custom logic.
   // In this scenario, you have a custom controller `MessageController`
   // with an `inbox` action.
-  '/': 'MessageController.inbox'
+  //'/': 'MessageController.inbox'
 
 
   // Alternatively, you can use the more verbose syntax:
   '/': {
-    controller: 'MessageController',
-    action: 'inbox'
+    controller: 'MainController',
+    action: 'index'
   }
 
 
   // If you decided to call your action `index` instead of `inbox`,
   // since the `index` action is the default, you can shortcut even further to:
-  '/': 'MessageController'
+  '/': 'MainController'
 
 
   // Up until now, we haven't specified a specific HTTP method/verb
@@ -77,7 +79,7 @@ module.exports.routes = {
   //		</form>
 
   // You would want to define the following route to handle your form:
-  'post /signup': 'UserController.signup'
+  // 'post /signup': 'UserController.signup'
 
 
   // What about the ever-popular "vanity URLs" aka URL slugs?
