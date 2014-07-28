@@ -2,7 +2,7 @@
 
 Solo es un demo para integrar la API Web de Spotify usando el framework Sails para Node. 
 
-Instalacion
+instalacion
 ------------
 
 Si no tienes instalado node.js en tu computador tienes que instalarlo primero para poder continuar.
