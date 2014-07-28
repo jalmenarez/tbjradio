@@ -13,7 +13,7 @@ module.exports = {
 
     config: config,
 
-    code: 'AQDhA19vNZfYJoTu9cMLbvbIpeVrHyKzjmSc6_EGhvZMWwkGdGftaK-qusvIKQPoAMx_ao1334kGMb3E6whkuuegutRnKdDfhHlnB6lpSCZ3QifrudB2nUb8k58nMq1aXPRknPTeSASAAqhSENSSAguXE-3FEK4uIbDNbl0tTu1W9adOfLiSIr6Nr69x91PCVh41YgEiOjJ1D9zcmqqrECXCpcb4WxIk2ij6nHt2cwti2haY5FruPKZjaohoRnbkcA',
+    authorizationCode: 'AQCyxqXT670lBy5gzs-TDAA2FVRd9Y1jt7OpovA1Mdy9rLNEZyagPDCmBQWTSCccCzRFDX8ZWjBW9VX4Eb9ylGL_6KLxbblFEIDcvrnQbKLci7cLYpdPjWTlQ2SSZtH61eRgVW7MDwzP3tRWPVR9d2_F1i32hv9yUUeu02tzIOr37Ue5X5DM95kuqpZRl6vUdMYgA9BjTHi2PBVRbleS-fTZHa_opZYqwvrysmXi0mxO9QeguHU9nfec-mOIJ3ip',
 
     clientCredentialsGrant: function(){
         sails.log.debug('clientCredentialsGrant()');
@@ -22,7 +22,7 @@ module.exports = {
 
     authorizationCodeGrant: function(){
         sails.log.debug('authorizationCodeGrant()');
-        return webApi.authorizationCodeGrant(this.code);
+        return webApi.authorizationCodeGrant(this.authorizationCode);
     },
 
     createAuthorizeURL: function(scopes, state){
