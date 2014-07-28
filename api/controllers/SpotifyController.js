@@ -92,7 +92,8 @@ module.exports = {
       sails.log.debug('/spotify/authorize');
 
       var state = SpotifyService.generateRandomString(16);
-      var authorizeURL = SpotifyService.createAuthorizeURL(SpotifyService.config.scopes, state);
+      var scope = ['playlist-read-private','user-read-private'];
+      var authorizeURL = SpotifyService.createAuthorizeURL(scope, state);
       sails.log.debug('authorizeURL: '+authorizeURL);
       res.cookie(SpotifyService.config.stateKey, state);
       // Se hace un redirect a la url de autorizacion.
