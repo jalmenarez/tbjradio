@@ -15,9 +15,21 @@ module.exports = {
 
     authorizationCode: 'AQCyxqXT670lBy5gzs-TDAA2FVRd9Y1jt7OpovA1Mdy9rLNEZyagPDCmBQWTSCccCzRFDX8ZWjBW9VX4Eb9ylGL_6KLxbblFEIDcvrnQbKLci7cLYpdPjWTlQ2SSZtH61eRgVW7MDwzP3tRWPVR9d2_F1i32hv9yUUeu02tzIOr37Ue5X5DM95kuqpZRl6vUdMYgA9BjTHi2PBVRbleS-fTZHa_opZYqwvrysmXi0mxO9QeguHU9nfec-mOIJ3ip',
 
+    authOptions: {
+		  url: 'https://accounts.spotify.com/api/token',
+		  headers: {
+		    'Authorization': 'Basic ' + (new Buffer(config.client_id + ':' + config.client_secret).toString('base64'))
+		  },
+		  form: {
+		    grant_type: 'client_credentials'
+		  },
+		  json: true
+    },
+    
     clientCredentialsGrant: function(){
         sails.log.debug('clientCredentialsGrant()');
-        return webApi.clientCredentialsGrant();
+        sails.log.debug(this.authOptions);
+        return webApi.clientCredentialsGrant(this.authOptions);
     },
 
     authorizationCodeGrant: function(){
@@ -39,6 +51,8 @@ module.exports = {
         sails.log.debug('setAccessToken('+access_token+')');
         webApi.setAccessToken(access_token);
     },
+    
+   
 
     /**
      * Generates a random string containing numbers and letters
