@@ -16,21 +16,21 @@
  */
 
 module.exports = {
-    
-  
+      
   /**
    * Action blueprints:
    *    `/main/index`
    *    `/main`
    */
    index: function (req, res) {
-    
+
+    sails.log.debug('/main/index');
+
     // Send a JSON response
     return res.json({
-      hello: 'hello world!'
+        hello: 'world'
     });
   },
-
 
   /**
    * Action blueprints:
@@ -44,14 +44,10 @@ module.exports = {
     });
   },
 
-
-
-
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to MainController)
    */
   _config: {}
-
   
 };

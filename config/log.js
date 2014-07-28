@@ -21,7 +21,19 @@ module.exports = {
   // 'verbose': Display calls from `.error()`, `.warn()`, `.debug()`, `.info()` to `.verbose()`
   //
   log: {
-    level: 'error'
+    level: 'debug',
+    colors: {
+      silly: 'rainbow',
+      input: 'grey',
+      verbose: 'cyan',
+      prompt: 'grey',
+      info: 'green',
+      data: 'grey',
+      help: 'cyan',
+      warn: 'yellow',
+      debug: 'blue',
+      error: 'red'
+    }
   }
 
 };

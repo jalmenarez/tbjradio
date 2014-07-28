@@ -2016,7 +2016,7 @@ var io = ('undefined' === typeof module ? {} : module.exports);
       delete self.redoTransports;
 
       self.options['try multiple transports'] = tryMultiple;
-    };
+    }
 
     function maybeReconnect () {
       if (!self.reconnecting) {
@@ -2025,9 +2025,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 
       if (self.connected) {
         return reset();
-      };
+      }
 
       if (self.connecting && self.reconnecting) {
+    	  
         return self.reconnectionTimer = setTimeout(maybeReconnect, 1000);
       }
 
