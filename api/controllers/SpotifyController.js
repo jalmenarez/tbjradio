@@ -120,31 +120,27 @@ module.exports = {
  /** Action blueprints:
    *   `/spotify/ajax_get_user_play_lists`
    */
-    ajax_get_user_play_lists: function (req, res){
-     SpotifyService.authorizationCodeGrant()
-         .then(function(data){
-            sails.log.debug('The access token expires in ' + data['expires_in']);
-            sails.log.debug('The access token is ' + data['access_token']);
-            SpotifyService.setAccessToken(data['access_token']);
-            return data['access_token'];
-         })
-         .then(function(access_token){
-            SpotifyService.getUserPlaylists().then(function(list){
-                     return res.json({
-                         result: 'ok',
-                         data: list
-                     });
-                 },
-                 function(fail){
-                     return res.json({
-                         result: 'nok',
-                         error: fail
-                     });
-                 });
-         }).catch(function(error) {
-             sails.log.error(error);
-         });
-    },
+  ajax_get_user_play_lists: function (req, res){
+	  SpotifyService.clientCredentialsGrant()
+	  .then(function(data){
+		  sails.log.debug('The access token expires in ' + data['expires_in']);
+		  sails.log.debug('The access token is ' + data['access_token']);
+		  SpotifyService.setAccessToken(data['access_token']);
+		  return SpotifyService.getUserPlaylists();
+	  })
+	  .then(function(data){
+		  return res.json({
+			  result: 'ok',
+			  data: data
+		  });
+	  }).catch(function(error) {
+		  sails.log.error(error);
+		  return res.json({
+			  result: 'nok',
+			  error: fail
+		  });
+	  });
+  },
 
   /**
    * Overrides for the settings in `config/controllers.js`
