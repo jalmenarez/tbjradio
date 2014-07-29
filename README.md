@@ -1,7 +1,7 @@
 tbjradio
 ================== 
 
-Solo es un demo para integrar la API Web de Spotify usando el framework Sails para Node. 
+Solo es un demo para integrar la API Web de Spotify usando el framework sails para node. 
 
 ## instalacion
 
@@ -32,7 +32,7 @@ Estando dentro podemos echar a andar el proyecto con el siguiente comando
 sails lift
 ```
 
-Si todo sale bien se podra entrar al sitio: localhost:1337, si no habr� que revisar la consola en busca de alg�n posible
+Si todo sale bien se podra entrar al sitio: localhost:1337, si no habrá que revisar la consola en busca de algún posible
 error.
 
 Si deseamos detener la aplicacion debemos presionar las teclas Control + C.
