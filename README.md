@@ -1,9 +1,12 @@
-# tbjradio
+tbjradio
+================== 
 
 Solo es un demo para integrar la API Web de Spotify usando el framework Sails para Node. 
 
-instalacion
-------------
+##### dependencias
+
+
+## instalacion
 
 Si no tienes instalado node.js en tu computador tienes que instalarlo primero para poder continuar.
 
@@ -12,7 +15,7 @@ Se debe instalar el modulo de sails para lo cual se usa npm, el cual es el gesto
 npm -g install sails
 ```
 
-Se debe instalar otro modulo que nos permitirá comunicarnos con la API Web de Spotify
+Se debe instalar otro modulo que nos permitirï¿½ comunicarnos con la API Web de Spotify
 ``` bash
 npm  -g install spotify-web-api-node
 ```
@@ -32,7 +35,7 @@ Estando dentro podemos echar a andar el proyecto con el siguiente comando
 sails lift
 ```
 
-Si todo sale bien se podra entrar al sitio: localhost:1337, si no habrá que revisar la consola en busca de algún posible
+Si todo sale bien se podra entrar al sitio: localhost:1337, si no habrï¿½ que revisar la consola en busca de algï¿½n posible
 error.
 
 Si deseamos detener la aplicacion debemos presionar las teclas Control + C.
