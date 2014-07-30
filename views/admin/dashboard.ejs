@@ -4,6 +4,7 @@
       	<% if( typeof profile !== 'undefined' && profile) {%>
         <div id="user-profile">
         	<h2>Logged in as <%- profile.display_name %></h2>
+        	<a href="/admin/logout"><i class="icon-off"></i> Log out</a>
         	<div class="media">
         		<div class="pull-left">
           			<img class="media-object" width="150" src="<%- profile.images[0].url %>" />
