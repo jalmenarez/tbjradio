@@ -95,7 +95,8 @@ module.exports = {
                     res.redirect(redirect_url +
                         querystring.stringify({
                             error: 'invalid_token'
-                        }));
+                        })
+                    );
                 }
             });
         }
@@ -148,6 +149,7 @@ module.exports = {
      */
     callback_result: function (req, res){
         sails.log.debug('/spotify/callback_result');
+        var redirect_url = '/admin/dashboard/?';     
         var access_token = req.query.access_token || null;
         var refresh_token = req.query.refresh_token || null;
         var code = req.query.code || null;
@@ -157,13 +159,22 @@ module.exports = {
             SpotifyService.webApi.setAccessToken(access_token);
             SpotifyService.webApi.setRefreshToken(refresh_token);
             //TODO almacenar code en session.
-            res.redirect('/main/index');
+            res.redirect(redirect_url + 
+               querystring.stringify({
+            	   result: 'OK',
+            	   access_token: access_token,
+            	   refresh_token: refresh_token
+               })
+            );
         } else {
-            return res.json({
-                result: 'NOK',
-                error: error,
-                message: 'No fué posible autenticarse en Spotify'
-            });
+        	redirect_url = 'admin/index';
+            res.redirect(redirect_url + 
+                querystring.stringify({
+                	result: 'NOK',
+                	error: error,
+                	message: 'No fu\u00e9 posible autenticarse en Spotify'
+                })
+            );
         }
     },
 
