@@ -46,10 +46,21 @@ module.exports = {
    * Action blueprints:
    *    `/admin/dashboard`
    */
-   dashboard: function (req, res) {  
-	   return res.view({
-		   title: 'TBJRADIO :: Dasboard'
-       });
+   dashboard: function (req, res) {
+	   var result = req.query.result || null;
+	   if(result != null && result == 'OK'){
+		   var code = req.query.code || null;		  
+		   if(code != null){		
+			   SpotifyService.webApi.getMe()
+			   .then(function(profile) {
+				   res.view({title: 'tbjradio :: dashboard', profile: profile});
+			   })
+			   .catch(function(err) {
+				   sails.log.error('Something went wrong', err);
+				   res.view({title: 'tbjradio :: dashboard'});
+			   });
+		   }		   
+	   }
   },
 
 
