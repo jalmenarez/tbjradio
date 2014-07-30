@@ -16,6 +16,7 @@
  */
 
 var request = require('request');
+var querystring = require('querystring');
 
 module.exports = {
 
@@ -40,12 +41,14 @@ module.exports = {
 
         var stateKey = SpotifyService.config.stateKey;
         var storedState = req.cookies ? req.cookies[stateKey] : null;
+        var redirect_url = '/spotify/callback_result/?';
 
         if (state === null || state !== storedState) {
-            res.redirect('/spotify/callback_result/?' +
+            res.redirect(redirect_url +
                 querystring.stringify({
                     error: 'state_mismatch'
-                }));
+                })
+            );
         } else {
             res.clearCookie(stateKey);
 
@@ -67,6 +70,9 @@ module.exports = {
                     var access_token = body.access_token;
                     var refresh_token = body.refresh_token;
 
+                    SpotifyService.webApi.setAccessToken(access_token);
+                    SpotifyService.webApi.setRefreshToken(refresh_token);
+
                     var options = {
                         url: 'https://api.spotify.com/v1/me',
                         headers: { 'Authorization': 'Bearer ' + access_token },
@@ -75,18 +81,18 @@ module.exports = {
 
                     // use the access token to access the Spotify Web API
                     request.get(options, function (error, response, body) {
-                        console.log(body);
+                        sails.log.debug(body);
                     });
 
                     // we can also pass the token to the browser to make requests from there
-                    res.redirect('/spotify/callback_result?' +
+                    res.redirect(redirect_url +
                         querystring.stringify({
                             access_token: access_token,
                             refresh_token: refresh_token,
                             code: code
                         }));
                 } else {
-                    res.redirect('/spotify/callback_result?' +
+                    res.redirect(redirect_url +
                         querystring.stringify({
                             error: 'invalid_token'
                         }));
@@ -125,22 +131,15 @@ module.exports = {
      *    `/spotify/authorize`
      */
     authorize: function (req, res) {
-
         sails.log.debug('/spotify/authorize');
-
         var state = SpotifyService.generateRandomString(16);
+        // Lista de scopes a los que se les va pedir al usuario.
+        var scopes = ['playlist-read-private', 'user-read-private'];
+        var authorizeURL = SpotifyService.webApi.createAuthorizeURL(scopes, state);
+        sails.log.debug('authorizeURL: ' + authorizeURL);
         res.cookie(SpotifyService.config.stateKey, state);
-
-        var scope = 'user-read-private playlist-read-private user-read-email';
-        res.redirect('https://accounts.spotify.com/authorize?' +
-                querystring.stringify({
-                    response_type: 'code',
-                    client_id: SpotifyService.config.client_id,
-                    scope: scope,
-                    redirect_uri: SpotifyService.config.redirect_uri,
-                    state: state
-                })
-        );
+        // Se hace un redirect a la url de autorizacion.
+        res.redirect(authorizeURL);
     },
 
     /**
@@ -148,31 +147,28 @@ module.exports = {
      *   `/spotify/callback_result`
      */
     callback_result: function (req, res){
-
         sails.log.debug('/spotify/callback_result');
-
-        sails.log.debug('req.query: ' + req.query);
-
         var access_token = req.query.access_token || null;
         var refresh_token = req.query.refresh_token || null;
         var code = req.query.code || null;
+        var error = req.query.error || null;
 
-        //TODO informar al usuario que hubo un error cuando venga en la url (?error=state_mismatch).
-
-        if (access_token != null && refresh_token != null) {
+        if (access_token != null && refresh_token != null && code != null) {
             SpotifyService.webApi.setAccessToken(access_token);
             SpotifyService.webApi.setRefreshToken(refresh_token);
-            res.redirect('/spotify/get_user_play_lists');
+            //TODO almacenar code en session.
+            res.redirect('/main/index');
         } else {
             return res.json({
-                result: 'nok',
+                result: 'NOK',
+                error: error,
                 message: 'No fué posible autenticarse en Spotify'
             });
         }
     },
 
     /** Action blueprints:
-     *   `/spotify/ajax_get_user_play_lists`
+     *   `/spotify/get_user_play_lists`
      */
     get_user_play_lists: function (req, res) {
         SpotifyService.webApi.getMe().then(function (data) {
