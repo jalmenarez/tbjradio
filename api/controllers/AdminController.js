@@ -38,7 +38,7 @@ module.exports = {
    */
    index: function (req, res) {
     return res.view({
-    	title: 'TBJRADIO'
+    	title: 'tbjradio'
     });
   },
   
@@ -61,6 +61,15 @@ module.exports = {
 			   });
 		   }		   
 	   }
+  },
+  
+  /**
+   * Action blueprints:
+   *    `/admin/logout`
+   */
+   logout: function (req, res) {
+	   //TODO limpiar la session y todo lo necesario para que se haga el logout.
+	   res.redirect('/admin');
   },
 
 
