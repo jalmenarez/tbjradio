@@ -188,13 +188,13 @@ module.exports = {
         }).then(function (playlists) {
             sails.log.debug(playlists);
             return res.json({
-                result: 'ok',
+                result: 'OK',
                 playlists: playlists
             });
         }).catch(function (err) {
             sails.log.error('Something went wrong!', err);
             return res.json({
-                result: 'nok',
+                result: 'NOK',
                 message: err
             });
         });
