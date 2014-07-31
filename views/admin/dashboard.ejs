@@ -1,9 +1,28 @@
  <div class="container">
       <div id="loggedin">
       	<h1>tbjradio</h1>
-      	<% if( typeof profile !== 'undefined' && profile) {%>
+      	<% if( typeof profile !== 'undefined' && profile) { %>     	
+      	<script type="text/javascript">
+      	$.getJSON("http://localhost:1337/spotify/get_user_play_lists",
+			function(data){
+  				if(data.result === "OK") {
+  					var html = '<ul>';
+  					$.each(data.playlists.items, function( index, item ) {
+  					 html +=  '<li>';
+            		 html +=  '<a href="#" class="load" data-link="'+item.href+'">'+item.name+'</a>';
+        			 html +=  '</li>';
+					});
+					html += '</ul>';
+					$('#playlists-result').html(html);
+  				}	
+			},
+			function(jqXHR, textStatus, errorThrown) {
+    			alert('error ' + textStatus + " " + errorThrown);
+			}
+		);
+      	</script>
         <div id="user-profile">
-        	<h2>Logged in as <%- profile.display_name %></h2>
+        	<h2>Hello, <%- profile.display_name %>!</h2>
         	<a href="/admin/logout"><i class="icon-off"></i> Log out</a>
         	<div class="media">
         		<div class="pull-left">
@@ -11,17 +30,21 @@
         		</div>
         		<div class="media-body">
           			<dl class="dl-horizontal">
-            			<dt>Display name</dt><dd class="clearfix"><%- profile.display_name %></dd>
             			<dt>Id</dt><dd><%- profile.id %></dd>
             			<dt>Email</dt><dd><%- profile.email %></dd>
-            			<dt>Spotify URI</dt><dd><a href="<%- profile.external_urls.spotify %>"><%- profile.external_urls.spotify %></a></dd>
-            			<dt>Link</dt><dd><a href="<%- profile.href %>"><%- profile.href %></a></dd>
-            			<dt>Profile Image</dt><dd class="clearfix"><a href="<%- profile.images[0].url %>"><%- profile.images[0].url %></a></dd>
-            			<dt>Country</dt><dd><%- profile.country %></dd>
           			</dl>
         		</div>
         	</div>	
         </div>
+        <div id="playlists">
+        	<div id="playlists-head">
+        		<h3>Playlists for <%- profile.display_name %></h3>
+        	</div>
+        	<div id="playlists-result">
+        	
+        	</div>
+        </div>
+        
         <% } %>
       </div>
  </div>
