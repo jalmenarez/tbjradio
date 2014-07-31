@@ -80,6 +80,8 @@ module.exports = {
    */
    logout: function (req, res) {
 	   //TODO limpiar la session y todo lo necesario para que se haga el logout.
+	   res.clearCookie(sails.config.spotify.access_token_key);
+	   res.clearCookie(sails.config.spotify.refresh_token_key);
 	   res.redirect('/admin');
   },
 
