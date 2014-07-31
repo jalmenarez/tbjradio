@@ -9,7 +9,7 @@
   					var html = '<ul>';
   					$.each(data.playlists.items, function( index, item ) {
   					 html +=  '<li>';
-            		 html +=  '<a href="#" class="load" data-link="'+item.href+'">'+item.name+'</a>';
+            		 html +=  '<a href="#" class="load" data-id="'+item.id+'">'+item.name+'</a>';
         			 html +=  '</li>';
 					});
 					html += '</ul>';
@@ -20,6 +20,19 @@
     			alert('error ' + textStatus + " " + errorThrown);
 			}
 		);
+		$('#playlists-result').addEventListener('click', function(e) {
+    		var target = e.target;
+    		if (target !== null && target.classList.contains('load')) {
+        		e.preventDefault();
+        	var id = target.getAttribute('data-id');            
+        	$.ajax({
+            	url: <%- sails.config.url_base %>/spotify/get_user_play_list,
+            	data: {id: id}
+            	success: function(response) {
+                	//TODO procesar el response.	            
+            	}
+        	});
+    	});
       	</script>
         <div id="user-profile">
         	<h2>Hello, <%- profile.display_name %>!</h2>
