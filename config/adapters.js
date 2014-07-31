@@ -24,26 +24,12 @@ module.exports.adapters = {
     module: 'sails-disk'
   },
 
-  // MySQL is the world's most popular relational database.
-  // Learn more: http://en.wikipedia.org/wiki/MySQL
-  myLocalMySQLDatabase: {
-
-    module: 'sails-mysql',
-    host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_MYSQL_USER',
-    // Psst.. You can put your password in config/local.js instead
-    // so you don't inadvertently push it up if you're using version control
-    password: 'YOUR_MYSQL_PASSWORD', 
-    database: 'YOUR_MYSQL_DB'
-  },
-
   // Spotify
   spotify: {
     client_id: "c4b3222976e34dd581d9bd71a37e7677",
     client_secret: "b6a298fad16a4cdfbc0a7b3bdab0e6d4",
-    redirect_uri: "http://localhost:1337/spotify/callback",
-    stateKey: "spotify_auth_state",
-    username: "jalmenarez"
+    redirect_uri: "http://tbjradio.jit.su/spotify/callback",
+    stateKey: "spotify_auth_state"
   }
 
 };

@@ -16,33 +16,61 @@
  */
 
 module.exports = {
+    
+  
+  /**
+   * Action blueprints:
+   *    `/admin/login`
+   */
+   login: function (req, res) {
+	if(req.query.type == 'spotify') {
+		 res.redirect('/spotify/authorize');
+	} else {
+		 //TODO otro tipo de login.
+	}
+  },
 
 
-    /**
-     * Action blueprints:
-     *    `/admin/index`
-     *    `/admin`
-     */
-    index: function (req, res) {
-        return res.view();
-    },
-
-    /**
-     * Action blueprints:
-     *    `/admin/login`
-     */
-    login: function (req, res) {
-        res.redirect('spotify/authorize');
-    },
-
-
-    /**
-     * Action blueprints:
-     *    `/admin/dashboard`
-     */
-    dashboard: function (req, res) {
-        return res.view();
-    },
+  /**
+   * Action blueprints:
+   *    `/admin/index`
+   *    `/admin`
+   */
+   index: function (req, res) {
+    return res.view({
+    	title: 'tbjradio'
+    });
+  },
+  
+  /**
+   * Action blueprints:
+   *    `/admin/dashboard`
+   */
+   dashboard: function (req, res) {
+	   var result = req.query.result || null;
+	   if(result != null && result == 'OK'){
+		   var code = req.query.code || null;		  
+		   if(code != null){		
+			   SpotifyService.webApi.getMe()
+			   .then(function(profile) {
+				   res.view({title: 'tbjradio :: dashboard', profile: profile});
+			   })
+			   .catch(function(err) {
+				   sails.log.error('Something went wrong', err);
+				   res.view({title: 'tbjradio :: dashboard'});
+			   });
+		   }		   
+	   }
+  },
+  
+  /**
+   * Action blueprints:
+   *    `/admin/logout`
+   */
+   logout: function (req, res) {
+	   //TODO limpiar la session y todo lo necesario para que se haga el logout.
+	   res.redirect('/admin');
+  },
 
 
 

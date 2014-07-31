@@ -1,0 +1,27 @@
+ <div class="container">
+      <div id="loggedin">
+      	<h1>tbjradio</h1>
+      	<% if( typeof profile !== 'undefined' && profile) {%>
+        <div id="user-profile">
+        	<h2>Logged in as <%- profile.display_name %></h2>
+        	<a href="/admin/logout"><i class="icon-off"></i> Log out</a>
+        	<div class="media">
+        		<div class="pull-left">
+          			<img class="media-object" width="150" src="<%- profile.images[0].url %>" />
+        		</div>
+        		<div class="media-body">
+          			<dl class="dl-horizontal">
+            			<dt>Display name</dt><dd class="clearfix"><%- profile.display_name %></dd>
+            			<dt>Id</dt><dd><%- profile.id %></dd>
+            			<dt>Email</dt><dd><%- profile.email %></dd>
+            			<dt>Spotify URI</dt><dd><a href="<%- profile.external_urls.spotify %>"><%- profile.external_urls.spotify %></a></dd>
+            			<dt>Link</dt><dd><a href="<%- profile.href %>"><%- profile.href %></a></dd>
+            			<dt>Profile Image</dt><dd class="clearfix"><a href="<%- profile.images[0].url %>"><%- profile.images[0].url %></a></dd>
+            			<dt>Country</dt><dd><%- profile.country %></dd>
+          			</dl>
+        		</div>
+        	</div>	
+        </div>
+        <% } %>
+      </div>
+ </div>
