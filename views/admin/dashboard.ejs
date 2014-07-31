@@ -1,6 +1,7 @@
  <div class="container">
       <div id="loggedin">
-      	<h1>tbjradio</h1>
+      	<h1>[tbjradio]</h1>
+      	<br />
       	<% if( typeof profile !== 'undefined' && profile) { %>     	
       	<script type="text/javascript">
       	$.getJSON("<%- sails.config.url_base %>/spotify/get_user_play_lists",
@@ -58,7 +59,7 @@
         </div>
         <div id="playlists">
         	<div id="playlists-head">
-        		<h3>Playlists for <%- profile.display_name %></h3>
+        		<h3>[Your playlists]</h3>
         	</div>
         	<div id="playlists-result"></div>
         </div>
