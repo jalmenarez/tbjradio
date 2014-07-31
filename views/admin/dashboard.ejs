@@ -3,7 +3,7 @@
       	<h1>tbjradio</h1>
       	<% if( typeof profile !== 'undefined' && profile) { %>     	
       	<script type="text/javascript">
-      	$.getJSON("http://localhost:1337/spotify/get_user_play_lists",
+      	$.getJSON("<%- sails.config.url_base %>/spotify/get_user_play_lists",
 			function(data){
   				if(data.result === "OK") {
   					var html = '<ul>';
