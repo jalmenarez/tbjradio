@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var SpotifyWebApi = require('spotify-web-api-node');
+
 module.exports = {
     
   
@@ -49,9 +51,18 @@ module.exports = {
    dashboard: function (req, res) {
 	   var result = req.query.result || null;
 	   if(result != null && result == 'OK'){
-		   var code = req.query.code || null;		  
-		   if(code != null){		
-			   SpotifyService.webApi.getMe()
+		   var code = req.query.code || null;			   
+		   var access_token = req.query.access_token;
+		   var refresh_token = req.query.refresh_token;
+		   if(code != null){				   
+			  var webApi = new SpotifyWebApi({
+		        	clientId : sails.config.spotify.client_id,
+		        	clientSecret : sails.config.spotify.client_secret,
+		        	redirectUri : sails.config.spotify.redirect_uri
+		       });
+			   webApi.setAccessToken(access_token);
+			   webApi.setRefreshToken(refresh_token);
+			   webApi.getMe()
 			   .then(function(profile) {
 				   res.view({title: 'tbjradio :: dashboard', profile: profile});
 			   })
