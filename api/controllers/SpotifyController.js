@@ -86,9 +86,10 @@ module.exports = {
                         json: true
                     };
 
+                    var user_id = null;
                     // use the access token to access the Spotify Web API
                     request.get(options, function (error, response, body) {
-                        sails.log.debug('statusCode: '+response.statusCode);
+                    	user_id = body.id.toLowerCase();
                     });
 
                     // we can also pass the token to the browser to make requests from there
@@ -96,7 +97,8 @@ module.exports = {
                         querystring.stringify({
                             access_token: access_token,
                             refresh_token: refresh_token,
-                            code: code
+                            code: code,
+                            user_id: user_id
                         }));
                 } else {
                     res.redirect(redirect_url +
