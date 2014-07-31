@@ -6,20 +6,26 @@
       	$.getJSON("<%- sails.config.url_base %>/spotify/get_user_play_lists",
 			function(data){
   				if(data.result === "OK") {
-  					var html = '<ul>';
-  					$.each(data.playlists.items, function( index, item ) {
-  					 html +=  '<li>';
-            		 html +=  '<a href="#" class="load" data-id="'+item.id+'">'+item.name+'</a>';
-        			 html +=  '</li>';
-					});
-					html += '</ul>';
-					$('#playlists-result').html(html);
+  					loadPlaylists(data);
   				}	
 			},
 			function(jqXHR, textStatus, errorThrown) {
     			alert('error ' + textStatus + " " + errorThrown);
 			}
 		);
+				
+		function loadPlaylists(data) {
+			var html = '<ul>';
+  			$.each(data.playlists.items, function( index, item ) {
+  				html +=  '<li>';
+            	html +=  '<a href="#" class="load" data-id="'+item.id+'">'+item.name+'</a>';
+        		html +=  '</li>';
+			});
+			html += '</ul>';
+			$('#playlists-result').html(html);
+		}
+		
+		/*
 		$('#playlists-result').addEventListener('click', function(e) {
     		var target = e.target;
     		if (target !== null && target.classList.contains('load')) {
@@ -33,6 +39,7 @@
             	}
         	});
     	});
+    	*/ 	
       	</script>
         <div id="user-profile">
         	<h2>Hello, <%- profile.display_name %>!</h2>
@@ -55,7 +62,6 @@
         	</div>
         	<div id="playlists-result"></div>
         </div>
-        
         <% } %>
       </div>
  </div>
