@@ -206,6 +206,7 @@ module.exports = {
     	var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
     	webApi.setRefreshToken(storedRefreshToken);
         webApi.getMe().then(function (data) {
+        	res.cookie(sails.config.spotify.user_id_key, data.id.toLowerCase());
             return  webApi.getUserPlaylists(data.id.toLowerCase());
         }).then(function (playlists) {
             return res.json({
@@ -219,6 +220,24 @@ module.exports = {
                 message: err
             });
         });
+    },
+    
+    /**
+     * Action blueprints:
+     *    `/spotify/get_user_play_list`
+     */
+    get_user_play_list: function (req, res) {
+    	var webApi = new SpotifyWebApi({
+        	clientId : sails.config.spotify.client_id,
+        	clientSecret : sails.config.spotify.client_secret,
+        	redirectUri : sails.config.spotify.redirect_uri
+        });
+    	var storedAccessToken = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
+    	webApi.setAccessToken(storedAccessToken);
+    	var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
+    	webApi.setRefreshToken(storedRefreshToken);
+    	var user_id = req.cookies ? req.cookies[sails.config.spotify.user_id_key] : null;
+    	//TODO llamar el metodo webApi.getPlaylist y devolver el resultado.
     },
 
     /**
