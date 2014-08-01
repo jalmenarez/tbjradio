@@ -26,7 +26,7 @@ module.exports = {
    */
    login: function (req, res) {
 	if(req.query.type == 'spotify') {
-		 res.redirect('/spotify/authorize');
+        res.redirect(sails.config.url_base + '/spotify/authorize');
 	} else {
 		 //TODO otro tipo de login.
 	}
@@ -51,9 +51,9 @@ module.exports = {
    dashboard: function (req, res) {
 	   var result = req.query.result || null;
 	   if(result != null && result == 'OK'){
-		   var code = req.query.code || null;			   
-		   var access_token = req.query.access_token;
-		   var refresh_token = req.query.refresh_token;
+           var code = req.cookies ? req.cookies[sails.config.spotify.code_key] : null;
+           var access_token = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
+           var refresh_token = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
 		   if(code != null){				   
 			  var webApi = new SpotifyWebApi({
 		        	clientId : sails.config.spotify.client_id,
@@ -70,8 +70,11 @@ module.exports = {
 				   sails.log.error('Something went wrong', err);
 				   res.view({title: 'tbjradio :: dashboard'});
 			   });
-		   }		   
-	   }
+		   }
+       } else {
+           sails.log.error('Something went wrong');
+           res.view({title: 'tbjradio :: dashboard'});
+       }
   },
   
   /**
@@ -79,9 +82,12 @@ module.exports = {
    *    `/admin/logout`
    */
    logout: function (req, res) {
-	   //TODO limpiar la session y todo lo necesario para que se haga el logout.
+      sails.console.debug('/admin/logout');
 	   res.clearCookie(sails.config.spotify.access_token_key);
 	   res.clearCookie(sails.config.spotify.refresh_token_key);
+      res.clearCookie(sails.config.spotify.code_key);
+      res.clearCookie(sails.config.spotify.code_key);
+      res.clearCookie(sails.config.spotify.user_id_key);
 	   res.redirect('/admin');
   },
 
