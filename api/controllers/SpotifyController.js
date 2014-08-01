@@ -211,7 +211,6 @@ module.exports = {
                 res.cookie(sails.config.spotify.user_id_key, data.id.toLowerCase());
                 return  webApi.getUserPlaylists(data.id.toLowerCase());
             }).then(function (playlists) {
-                sails.log.debug(playlists);
                 return res.json({
                     result: 'OK',
                     playlists: playlists
