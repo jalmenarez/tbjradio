@@ -82,13 +82,13 @@ module.exports = {
    *    `/admin/logout`
    */
    logout: function (req, res) {
-      sails.console.debug('/admin/logout');
-	   res.clearCookie(sails.config.spotify.access_token_key);
-	   res.clearCookie(sails.config.spotify.refresh_token_key);
+      sails.log.debug('/admin/logout');
+      res.clearCookie(sails.config.spotify.access_token_key);
+      res.clearCookie(sails.config.spotify.refresh_token_key);
       res.clearCookie(sails.config.spotify.code_key);
       res.clearCookie(sails.config.spotify.code_key);
       res.clearCookie(sails.config.spotify.user_id_key);
-	   res.redirect('/admin');
+      res.redirect('/admin');
   },
 
 
