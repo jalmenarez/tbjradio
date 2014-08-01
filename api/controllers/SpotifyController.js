@@ -211,6 +211,7 @@ module.exports = {
                 res.cookie(sails.config.spotify.user_id_key, data.id.toLowerCase());
                 return  webApi.getUserPlaylists(data.id.toLowerCase());
             }).then(function (playlists) {
+                sails.log.debug(playlists);
                 return res.json({
                     result: 'OK',
                     playlists: playlists
@@ -236,6 +237,11 @@ module.exports = {
      *    `/spotify/get_user_play_list`
      */
     get_user_play_list: function (req, res) {
+        sails.log.debug('/spotify/get_user_play_list');
+        var playlist_id = req.query.playlist_id;
+        sails.log.debug('playlist_id: ' + playlist_id);
+        var playlist_owner_id = req.query.playlist_owner_id;
+        sails.log.debug('playlist_owner_id: ' + playlist_owner_id);
     	var webApi = new SpotifyWebApi({
         	clientId : sails.config.spotify.client_id,
         	clientSecret : sails.config.spotify.client_secret,
@@ -245,8 +251,17 @@ module.exports = {
     	webApi.setAccessToken(storedAccessToken);
     	var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
     	webApi.setRefreshToken(storedRefreshToken);
-    	var user_id = req.cookies ? req.cookies[sails.config.spotify.user_id_key] : null;
-    	//TODO llamar el metodo webApi.getPlaylist y devolver el resultado.
+        webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
+            return res.json({
+                result: 'OK',
+                playlist: playlist
+            });
+        }).catch(function (err) {
+            return res.json({
+                result: 'NOK',
+                error: err
+            });
+        });
     },
 
     /**
