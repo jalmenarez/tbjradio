@@ -153,6 +153,36 @@ module.exports = {
         // Se hace un redirect a la url de autorizacion.
         res.redirect(authorizeURL);
     },
+    
+    /**
+     * Action blueprints:
+     *    `/spotify/get_authorize_url`
+     */
+    get_authorize_url: function (req, res) {
+    	sails.log.debug('/spotify/authorize');
+    	var state = SpotifyService.generateRandomString(16);
+        // Lista de scopes a los que se les va pedir al usuario.
+        var scopes = ['playlist-read-private', 'user-read-private'];
+        var webApi = new SpotifyWebApi({
+        	clientId : sails.config.spotify.client_id,
+        	clientSecret : sails.config.spotify.client_secret,
+        	redirectUri : sails.config.spotify.redirect_uri
+        });
+        var authorizeURL = webApi.createAuthorizeURL(scopes, state);
+        if (authorizeURL != null) {
+        	sails.log.debug('authorizeURL: ' + authorizeURL);
+            res.cookie(sails.config.spotify.stateKey, state);
+            return res.json({
+                result: 'OK',
+                authorize_url: authorizeURL
+            });
+        }else {
+        	return res.json({
+                result: 'NOK',
+                message: 'No fu\u00e9 posible obtener la url para autenticarse en Spotify'
+            });
+        }
+    },
 
     /**
      * Action blueprints:
