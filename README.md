@@ -7,6 +7,9 @@ Solo es un demo para integrar la API Web de Spotify usando el framework sails pa
 
 Si no tienes instalado node.js en tu computador tienes que instalarlo primero para poder continuar.
 
+Link para descargar node.js
+http://nodejs.org/
+
 Se debe instalar el modulo de sails para lo cual se usa npm, el cual es el gestor de modulos de node
 ``` bash
 npm -g install sails
@@ -27,8 +30,8 @@ Se instalan las dependencias restantes del proyecto
 npm install
 ```
 
-<script src="https://gist.github.com/jalmenarez/66c90d9a5a0e3c7d746b.js"></script>
-
+Se debe descargar este archivo de configuracion y dejarlo dentro de la carpeta config del proyecto para que funcione la comunicacion con Spotify
+https://gist.github.com/jalmenarez/66c90d9a5a0e3c7d746b#file-local-js
 
 Estando dentro podemos echar a andar el proyecto con el siguiente comando
 ``` bash
