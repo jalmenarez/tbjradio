@@ -48,7 +48,7 @@ module.exports = {
 
         var stateKey = sails.config.spotify.stateKey;
         var storedState = req.cookies ? req.cookies[stateKey] : null;
-        var redirect_url = '/spotify/callback_result/?';
+        var redirect_url = sails.config.url_base + '/spotify/callback_result/?';
 
         if (state === null || state !== storedState) {
             res.redirect(redirect_url +
@@ -76,9 +76,6 @@ module.exports = {
 
                     var access_token = body.access_token;
                     var refresh_token = body.refresh_token;
-
-                    webApi.setAccessToken(access_token);
-                    webApi.setRefreshToken(refresh_token);
 
                     var options = {
                         url: 'https://api.spotify.com/v1/me',
@@ -163,26 +160,25 @@ module.exports = {
      */
     callback_result: function (req, res){
         sails.log.debug('/spotify/callback_result');
-        var redirect_url = '/admin/dashboard/?';     
+        var redirect_url = sails.config.url_base + '/admin/dashboard/?';
         var access_token = req.query.access_token || null;
         var refresh_token = req.query.refresh_token || null;
+        var user_id = req.query.user_id || null;
         var code = req.query.code || null;
         var error = req.query.error || null;
 
         if (access_token != null && refresh_token != null && code != null) {
         	res.cookie(sails.config.spotify.access_token_key, access_token);
         	res.cookie(sails.config.spotify.refresh_token_key, refresh_token);
-            //TODO almacenar informacion retornada por spotify en la cookie
+            res.cookie(sails.config.spotify.user_id_key, user_id);
+            res.cookie(sails.config.spotify.code_key, code);
             res.redirect(redirect_url + 
                querystring.stringify({
-            	   result: 'OK',
-            	   access_token: access_token,
-            	   refresh_token: refresh_token,
-            	   code: code
+                   result: 'OK'
                })
             );
         } else {
-        	redirect_url = 'admin/index';
+            redirect_url = sails.config.url_base + '/admin/?';
             res.redirect(redirect_url + 
                 querystring.stringify({
                 	result: 'NOK',
@@ -197,31 +193,42 @@ module.exports = {
      *   `/spotify/get_user_play_lists`
      */
     get_user_play_lists: function (req, res) {
-    	var webApi = new SpotifyWebApi({
+        sails.log.debug('/spotify/get_user_play_lists');
+        var webApi = new SpotifyWebApi({
         	clientId : sails.config.spotify.client_id,
         	clientSecret : sails.config.spotify.client_secret,
         	redirectUri : sails.config.spotify.redirect_uri
         });
     	
     	var storedAccessToken = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
+        sails.log.debug('access_token: ' + storedAccessToken);
     	webApi.setAccessToken(storedAccessToken);
     	var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
     	webApi.setRefreshToken(storedRefreshToken);
-        webApi.getMe().then(function (data) {
-        	res.cookie(sails.config.spotify.user_id_key, data.id.toLowerCase());
-            return  webApi.getUserPlaylists(data.id.toLowerCase());
-        }).then(function (playlists) {
-            return res.json({
-                result: 'OK',
-                playlists: playlists
+        sails.log.debug('refresh_token: ' + storedRefreshToken);
+        if (storedAccessToken != null) {
+            webApi.getMe().then(function (data) {
+                res.cookie(sails.config.spotify.user_id_key, data.id.toLowerCase());
+                return  webApi.getUserPlaylists(data.id.toLowerCase());
+            }).then(function (playlists) {
+                return res.json({
+                    result: 'OK',
+                    playlists: playlists
+                });
+            }).catch(function (err) {
+                sails.log.error('Something went wrong!', err);
+                return res.json({
+                    result: 'NOK',
+                    message: err
+                });
             });
-        }).catch(function (err) {
-            sails.log.error('Something went wrong!', err);
+        } else {
+            sails.log.error('access_token is null');
             return res.json({
                 result: 'NOK',
-                message: err
+                message: 'access_token is null'
             });
-        });
+        }
     },
     
     /**
