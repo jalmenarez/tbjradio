@@ -24,7 +24,7 @@
         		html +=  '</li>';
 			});
 			html += '</ul>';
-			$('#playlists-result').html(html);
+			$('#playlists-list').html(html);
 		}
       	</script>
         <div id="user-profile">
@@ -47,11 +47,11 @@
         	<div id="playlists-head">
         		<h3>[Your playlists]</h3>
         	</div>
-        	<div id="playlists-result"></div>
+        	<div id="playlists-list"></div>
             <div id="playlist-detail"></div>
         </div>
           <script type="text/javascript">
-              $("#playlists-result").click(function (handler) {
+              $("#playlists-list").click(function (handler) {
                   var target = handler.target;
                   if (target !== null && target.classList.contains('load')) {
                       handler.preventDefault();
