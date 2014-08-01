@@ -23,7 +23,6 @@ module.exports = {
    *    `/main`
    */
    index: function (req, res) {
-
     sails.log.debug('/main/index');
 
     // Send a JSON response
@@ -37,7 +36,7 @@ module.exports = {
    *    `/main/dashboard`
    */
    dashboard: function (req, res) {
-    
+	sails.log.debug('/main/dashboard');   
     // Send a JSON response
     return res.json({
       hello: 'world'

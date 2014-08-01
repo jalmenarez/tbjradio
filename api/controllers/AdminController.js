@@ -25,6 +25,7 @@ module.exports = {
    *    `/admin/login`
    */
    login: function (req, res) {
+	sails.log.debug('/admin/login');      
 	if(req.query.type == 'spotify') {
         res.redirect(sails.config.url_base + '/spotify/authorize');
 	} else {
@@ -39,6 +40,7 @@ module.exports = {
    *    `/admin`
    */
    index: function (req, res) {
+	sails.log.debug('/admin/index');   
     return res.view({
     	title: 'tbjradio'
     });
@@ -49,6 +51,7 @@ module.exports = {
    *    `/admin/dashboard`
    */
    dashboard: function (req, res) {
+	   sails.log.debug('/admin/dashboard');   
 	   var result = req.query.result || null;
 	   if(result != null && result == 'OK'){
            var code = req.cookies ? req.cookies[sails.config.spotify.code_key] : null;
