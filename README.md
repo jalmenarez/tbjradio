@@ -27,6 +27,9 @@ Se instalan las dependencias restantes del proyecto
 npm install
 ```
 
+<script src="https://gist.github.com/jalmenarez/66c90d9a5a0e3c7d746b.js"></script>
+
+
 Estando dentro podemos echar a andar el proyecto con el siguiente comando
 ``` bash
 sails lift
