@@ -56,9 +56,7 @@
                   if (target !== null && target.classList.contains('load')) {
                       handler.preventDefault();
                       var playlist_id = target.getAttribute('data-id');
-                      var playlist_owner_id = target.getAttribute('data-owner-id');
-                      console.log("playlist_id: " + playlist_id);
-                      console.log("playlist_owner: " + playlist_owner_id);
+                      var playlist_owner_id = target.getAttribute('data-owner-id');                     
                       var link = "<%- sails.config.url_base %>/spotify/get_user_play_list";
                       $.ajax({
                           url: link,
@@ -73,7 +71,9 @@
               function loadPlaylist(data) {
                   if (data.result === "OK") {
                       var html = "<h2>" + data.playlist.name + "</h2>";
-                      html += "<p>" + data.playlist.description + "</p>";
+                      if(data.playlist.description !== null){
+                      	html += "<p>" + data.playlist.description + "</p>";
+                      }
                       if (data.playlist.images.length) {
                           html += "<img style=\"background-image:url(" + data.playlist.images[0].link + ")\" class=\"cover\"/>";
                       }
