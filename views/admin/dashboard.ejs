@@ -6,15 +6,17 @@
       	<script type="text/javascript">
 
             $.getJSON("<%- sails.config.url_base %>/spotify/get_user_play_lists",
-			function(data){
-  				if(data.result === "OK") {
-  					loadPlaylists(data);
-  				}	
-			},
-			function(jqXHR, textStatus, errorThrown) {
-    			alert('error ' + textStatus + " " + errorThrown);
-			}
-		);
+				function(data){
+  					if(data.result === "OK") {
+  						loadPlaylists(data);
+  					}else {
+  						$("#playlist-results").html('No fu\u00e9 posible obtener las listas de reproduccion desde Spotify');
+  					}	
+				},
+				function(jqXHR, textStatus, errorThrown) {
+    				$("#playlist-results").html('error: ' + textStatus + " " + errorThrown);
+				}
+			);
 
             function loadPlaylists(data) {
 			var html = '<ul>';
@@ -49,6 +51,7 @@
         	</div>
         	<div id="playlists-list"></div>
             <div id="playlist-detail"></div>
+            <div id="playlist-results"></div>
         </div>
           <script type="text/javascript">
               $("#playlists-list").click(function (handler) {
