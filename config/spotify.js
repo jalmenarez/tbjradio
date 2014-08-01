@@ -5,5 +5,6 @@ module.exports.spotify = {
 		stateKey: "spotify_auth_state",
 		access_token_key: "spotify_access_token",
 		refresh_token_key: "spotify_refresh_token",
-		user_id_key: "spotify_user_id"
+    user_id_key: "spotify_user_id",
+    code_key: "spotify_code"
 };
