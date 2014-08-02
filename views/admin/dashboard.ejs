@@ -1,107 +1,106 @@
- <div class="container">
-      <div id="loggedin">
-      	<h1>[tbjradio]</h1>
-      	<br />
-      	<% if( typeof profile !== 'undefined' && profile) { %>     	
-      	<script type="text/javascript">
+<div class="container">
+    <div id="loggedin">
+        <h1>[tbjradio]</h1><br />
+        <% if( typeof profile !== 'undefined' && profile) { %>
+        <script type="text/javascript">
 
             $.getJSON("<%- sails.config.url_base %>/spotify/get_user_play_lists",
-				function(data){
-  					if(data.result === "OK") {
-  						loadPlaylists(data);
-  					}else {
-  						$("#playlist-results").html('No fu\u00e9 posible obtener las listas de reproduccion desde Spotify');
-  					}	
-				},
-				function(jqXHR, textStatus, errorThrown) {
-    				$("#playlist-results").html('error: ' + textStatus + " " + errorThrown);
-				}
-			);
+                    function(data){
+                        if(data.result === "OK") {
+                            loadPlaylists(data);
+                        }else {
+                            $("#playlist-results").html('No fu\u00e9 posible obtener las listas de reproduccion desde Spotify');
+                        }
+                    },
+                    function(jqXHR, textStatus, errorThrown) {
+                        $("#playlist-results").html('error: ' + textStatus + " " + errorThrown);
+                    }
+            );
 
             function loadPlaylists(data) {
-			var html = '<ul>';
-  			$.each(data.playlists.items, function( index, item ) {
-  				html +=  '<li>';
-                html += '<a href="#" class="load" data-id="' + item.id + '" data-owner-id="' + item.owner.id + '">' + item.name + '</a>';
-        		html +=  '</li>';
-			});
-			html += '</ul>';
-			$('#playlists-list').html(html);
-		}
-      	</script>
+                var html = '<ul>';
+                $.each(data.playlists.items, function( index, item ) {
+                    html +=  '<li>';
+                    html += '<a href="#" class="load" data-id="' + item.id + '" data-owner-id="' + item.owner.id + '">' + item.name + '</a>';
+                    html +=  '</li>';
+                });
+                html += '</ul>';
+                $('#playlists-list').html(html);
+            }
+        </script>
         <div id="user-profile">
-        	<h2>Hello, <%- profile.display_name %>!</h2>
+            <h2>Hello, <%- profile.display_name %>!</h2>
             <a href="<%- sails.config.url_base %>/admin/logout"><i class="icon-off"></i> Log out</a>
 
             <div class="media">
-        		<div class="pull-left">
-          			<img class="media-object" width="150" src="<%- profile.images[0].url %>" />
-        		</div>
-        		<div class="media-body">
-          			<dl class="dl-horizontal">
-            			<dt>Id</dt><dd><%- profile.id %></dd>
-            			<dt>Email</dt><dd><%- profile.email %></dd>
-          			</dl>
-        		</div>
-        	</div>	
+                <div class="pull-left">
+                    <img class="media-object" width="150" src="<%- profile.images[0].url %>" />
+                </div>
+                <div class="media-body">
+                    <dl class="dl-horizontal">
+                        <dt>Id</dt><dd><%- profile.id %></dd>
+                        <dt>Email</dt><dd><%- profile.email %></dd>
+                    </dl>
+                </div>
+            </div>
         </div>
         <div id="playlists">
-        	<div id="playlists-head">
-        		<h3>[Your playlists]</h3>
-        	</div>
-        	<div id="playlists-list"></div>
+            <div id="playlists-head">
+                <h3>[Your playlists]</h3>
+            </div>
+            <div id="playlists-list"></div>
             <div id="playlist-detail"></div>
             <div id="playlist-results"></div>
         </div>
-          <script type="text/javascript">
-              $("#playlists-list").click(function (handler) {
-                  var target = handler.target;
-                  if (target !== null && target.classList.contains('load')) {
-                      handler.preventDefault();
-                      var playlist_id = target.getAttribute('data-id');
-                      var playlist_owner_id = target.getAttribute('data-owner-id');                     
-                      var link = "<%- sails.config.url_base %>/spotify/get_user_play_list";
-                      $.ajax({
-                          url: link,
-                          data: {playlist_id: playlist_id, playlist_owner_id: playlist_owner_id},
-                          success: function (data) {
-                              loadPlaylist(data);
-                          }
-                      });
-                  }
-              });
+        <script type="text/javascript">
+            $("#playlists-list").click(function (handler) {
+                var target = handler.target;
+                if (target !== null && target.classList.contains('load')) {
+                    handler.preventDefault();
+                    var playlist_id = target.getAttribute('data-id');
+                    var playlist_owner_id = target.getAttribute('data-owner-id');
+                    var link = "<%- sails.config.url_base %>/spotify/get_user_play_list";
+                    $.ajax({
+                        url: link,
+                        data: {playlist_id: playlist_id, playlist_owner_id: playlist_owner_id},
+                        success: function (data) {
+                            loadPlaylist(data);
+                        }
+                    });
+                }
+            });
 
-              function loadPlaylist(data) {
-                  if (data.result === "OK") {
-                      var html = "<h2>" + data.playlist.name + "</h2>";
-                      if(data.playlist.description !== null){
-                      	html += "<p>" + data.playlist.description + "</p>";
-                      }
-                      if (data.playlist.images.length) {
-                          html += "<img style=\"background-image:url(" + data.playlist.images[0].link + ")\" class=\"cover\"/>";
-                      }
-                      html += "<table>";
-                      html += "<tr>";
-                      html += "<th>Track</th>";
-                      html += "<th>Artist</th>";
-                      html += "<th>Album</th>";
-                      html += "</tr>";
-                      $.each(data.playlist.tracks.items, function (index, item) {
-                          html += "<tr>";
-                          html += "<td>" + item.track.name + "</td>";
-                          html += "<td>";
-                          $.each(item.track.artists, function (index, artist) {
-                              html += artist.name + " ";
-                          });
-                          html += "</td>";
-                          html += "<td>" + item.track.album.name + "</td>";
-                          html += "</tr>";
-                      });
-                      html += "</table>";
-                      $('#playlist-detail').html(html);
-                  }
-              }
-          </script>
-          <% } %>
-      </div>
- </div>
+            function loadPlaylist(data) {
+                if (data.result === "OK") {
+                    var html = "<h2>" + data.playlist.name + "</h2>";
+                    if(data.playlist.description !== null){
+                        html += "<p>" + data.playlist.description + "</p>";
+                    }
+                    if (data.playlist.images.length) {
+                        html += "<img style=\"background-image:url(" + data.playlist.images[0].link + ")\" class=\"cover\"/>";
+                    }
+                    html += "<table>";
+                    html += "<tr>";
+                    html += "<th>Track</th>";
+                    html += "<th>Artist</th>";
+                    html += "<th>Album</th>";
+                    html += "</tr>";
+                    $.each(data.playlist.tracks.items, function (index, item) {
+                        html += "<tr>";
+                        html += "<td>" + item.track.name + "</td>";
+                        html += "<td>";
+                        $.each(item.track.artists, function (index, artist) {
+                            html += artist.name + " ";
+                        });
+                        html += "</td>";
+                        html += "<td>" + item.track.album.name + "</td>";
+                        html += "</tr>";
+                    });
+                    html += "</table>";
+                    $('#playlist-detail').html(html);
+                }
+            }
+        </script>
+        <% } %>
+    </div>
+</div>
