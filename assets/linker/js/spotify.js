@@ -24,7 +24,6 @@ function getUserPlayList(url, parent, result) {
                 url: url,
                 data: {playlist_id: playlist_id, playlist_owner_id: playlist_owner_id},
                 success: function (data) {
-                    console.log(data);
                     loadPlaylist(data, result);
                 }
             });
