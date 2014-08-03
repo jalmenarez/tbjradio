@@ -1,10 +1,12 @@
+<!--SCRIPTS-->
+<script src="/linker/js/spotify.js"></script>
+<!--SCRIPTS END-->
+
 <div class="container">
     <div id="loggedin">
         <h1>[tbjradio]</h1><br/>
 
         <% if( typeof spotifyUser !== 'undefined' && spotifyUser) { %>
-
-        <script type="text/javascript" src="<%- sails.config.url_base %>/js/spotify.js"></script>
 
         <script type="text/javascript">
             getUserPlayLists("<%- sails.config.url_base %>/spotify/get_user_play_lists", "#playlists-list");
@@ -15,6 +17,7 @@
             <h2>Hello, <%- spotifyUser.display_name %>!</h2>
             <% } %>
             <a href="<%- sails.config.url_base %>/admin/logout"><i class="icon-off"></i> Log out</a>
+
             <div class="media">
                 <% if(spotifyUser.images && spotifyUser.images[0].url != null) { %>
                 <div class="pull-left">
