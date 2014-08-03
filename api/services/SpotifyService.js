@@ -21,12 +21,12 @@ module.exports = {
             var timeInSeconds = Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000);
             sails.log.debug('Retrieved token. It expires in ' + timeInSeconds + ' seconds!');
             if(timeInSeconds > 0) {
-                return true;
-            }else {
                 return false;
+            }else {
+                return true;
             }
         }else {
-            return false;
+            return true;
         }
     }
 
