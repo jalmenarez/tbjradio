@@ -2,7 +2,7 @@
  * SpotifyController
  *
  * @module      :: Controller
- * @description	:: A set of functions called `actions`.
+ * @description    :: A set of functions called `actions`.
  *
  *                 Actions contain code telling Sails how to respond to a certain type of request.
  *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
@@ -29,11 +29,11 @@ module.exports = {
     callback: function (req, res) {
 
         sails.log.debug('/spotify/callback');
-        
+
         var webApi = new SpotifyWebApi({
-        	clientId : sails.config.spotify.client_id,
-        	clientSecret : sails.config.spotify.client_secret,
-        	redirectUri : sails.config.spotify.redirect_uri
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
         });
 
         var code = req.query.code || null;
@@ -48,13 +48,14 @@ module.exports = {
 
         var stateKey = sails.config.spotify.stateKey;
         var storedState = req.cookies ? req.cookies[stateKey] : null;
+        sails.log.debug('storedState: '+storedState);
         var redirect_url = sails.config.url_base + '/spotify/callback_result/?';
 
         if (state === null || state !== storedState) {
             res.redirect(redirect_url +
-                querystring.stringify({
-                    error: 'state_mismatch'
-                })
+                    querystring.stringify({
+                        error: 'state_mismatch'
+                    })
             );
         } else {
             res.clearCookie(stateKey);
@@ -77,31 +78,114 @@ module.exports = {
                     var access_token = body.access_token;
                     var refresh_token = body.refresh_token;
 
+                    req.session.access_token = access_token;
+                    req.session.refresh_token = refresh_token;
+                    req.session.code = code;
+
                     var options = {
                         url: 'https://api.spotify.com/v1/me',
                         headers: { 'Authorization': 'Bearer ' + access_token },
                         json: true
                     };
 
-                    var user_id = null;
                     // use the access token to access the Spotify Web API
                     request.get(options, function (error, response, body) {
-                    	user_id = body.id.toLowerCase();
+                        if (!error && body && body.type === 'user') {
+                            var user_id = body.id.toLowerCase();
+                            // Se busca si existe un usuario spotify para el user_id obtenido.
+                            SpotifyUser.findOne(user_id).exec(function (err, spotifyUser) {
+                                if (!err && !spotifyUser) {
+                                    sails.log.debug("add spotifyUser");
+                                    SpotifyUser.create({
+                                        id: user_id,
+                                        display_name: body.display_name,
+                                        email: body.email,
+                                        product: body.product,
+                                        country: body.country,
+                                        userId: -1
+                                    }).exec(function (err, spotifyUser) {
+                                        if (!err) {
+                                            sails.log.debug('spotifyUser added');
+                                            sails.log.debug(spotifyUser);
+                                            req.session.spotifyUser = spotifyUser;
+                                            User.findOne({spotifyUserId: spotifyUser.id}).exec(function (err, user) {
+                                                if (!err && !user) {
+                                                    sails.log.debug('add user');
+                                                    User.create({
+                                                        spotifyUserId: spotifyUser.id
+                                                    }).exec(function (err, user) {
+                                                        if (!err) {
+                                                            sails.log.debug('user added');
+                                                            sails.log.debug(user);
+                                                            req.session.user = user;
+                                                            res.redirect(redirect_url);
+                                                        } else {
+                                                            sails.log.error(err);
+                                                        }
+                                                    });
+                                                } else if (!err) {
+                                                    sails.log.debug('user');
+                                                    req.session.user = user;
+                                                    res.redirect(redirect_url);
+                                                } else {
+                                                    sails.log.error(err);
+                                                }
+                                            });
+                                        } else {
+                                            sails.log.error(err);
+                                        }
+                                    });
+                                } else if (!err) {
+                                    sails.log.debug("spotifyUser");
+                                    sails.log.debug(spotifyUser);
+                                    if (!spotifyUser.userId && spotifyUser.userId > 0) {
+                                        sails.log.debug('add user');
+                                        User.create({
+                                            spotifyUserId: spotifyUser.id
+                                        }).exec(function (err, user) {
+                                            if (!err) {
+                                                sails.log.debug('user added');
+                                                sails.log.debug(user);
+                                                req.session.user = user;
+                                                SpotifyUser.update({ id: spotifyUser.id }, { userId: user.id })
+                                                    .exec(function (err, spotifyUser) {
+                                                        if (!err) {
+                                                            sails.log.debg('spotifyUser updated');
+                                                            sails.log.debug(spotifyUser);
+                                                            req.session.spotifyUser = spotifyUser;
+                                                            res.redirect(redirect_url);
+                                                        } else {
+                                                            sails.log.error(err);
+                                                        }
+                                                    });
+                                            } else {
+                                                sails.log.error(err);
+                                            }
+                                        });
+                                    } else {
+                                        User.findOne({spotifyUserId: spotifyUser.id}).exec(function (err, user) {
+                                            if (!err) {
+                                                sails.log.debug('user');
+                                                sails.log.debug(user);
+                                                req.session.user = user;
+                                                req.session.spotifyUser = spotifyUser;
+                                                res.redirect(redirect_url);
+                                            } else {
+                                                sails.log.error(err);
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    sails.log.error(err);
+                                }
+                            });
+                        }
                     });
-
-                    // we can also pass the token to the browser to make requests from there
-                    res.redirect(redirect_url +
-                        querystring.stringify({
-                            access_token: access_token,
-                            refresh_token: refresh_token,
-                            code: code,
-                            user_id: user_id
-                        }));
                 } else {
                     res.redirect(redirect_url +
-                        querystring.stringify({
-                            error: 'invalid_token'
-                        })
+                            querystring.stringify({
+                                error: 'invalid_token'
+                            })
                     );
                 }
             });
@@ -143,9 +227,9 @@ module.exports = {
         // Lista de scopes a los que se les va pedir al usuario.
         var scopes = ['playlist-read-private', 'user-read-private'];
         var webApi = new SpotifyWebApi({
-        	clientId : sails.config.spotify.client_id,
-        	clientSecret : sails.config.spotify.client_secret,
-        	redirectUri : sails.config.spotify.redirect_uri
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
         });
         var authorizeURL = webApi.createAuthorizeURL(scopes, state);
         sails.log.debug('authorizeURL: ' + authorizeURL);
@@ -153,31 +237,31 @@ module.exports = {
         // Se hace un redirect a la url de autorizacion.
         res.redirect(authorizeURL);
     },
-    
+
     /**
      * Action blueprints:
      *    `/spotify/get_authorize_url`
      */
     get_authorize_url: function (req, res) {
-    	sails.log.debug('/spotify/authorize');
-    	var state = SpotifyService.generateRandomString(16);
+        sails.log.debug('/spotify/authorize');
+        var state = SpotifyService.generateRandomString(16);
         // Lista de scopes a los que se les va pedir al usuario.
         var scopes = ['playlist-read-private', 'user-read-private'];
         var webApi = new SpotifyWebApi({
-        	clientId : sails.config.spotify.client_id,
-        	clientSecret : sails.config.spotify.client_secret,
-        	redirectUri : sails.config.spotify.redirect_uri
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
         });
         var authorizeURL = webApi.createAuthorizeURL(scopes, state);
         if (authorizeURL != null) {
-        	sails.log.debug('authorizeURL: ' + authorizeURL);
+            sails.log.debug('authorizeURL: ' + authorizeURL);
             res.cookie(sails.config.spotify.stateKey, state);
             return res.json({
                 result: 'OK',
                 authorize_url: authorizeURL
             });
-        }else {
-        	return res.json({
+        } else {
+            return res.json({
                 result: 'NOK',
                 message: 'No fu\u00e9 posible obtener la url para autenticarse en Spotify'
             });
@@ -188,33 +272,25 @@ module.exports = {
      * Action blueprints:
      *   `/spotify/callback_result`
      */
-    callback_result: function (req, res){
+    callback_result: function (req, res) {
         sails.log.debug('/spotify/callback_result');
         var redirect_url = sails.config.url_base + '/admin/dashboard/?';
-        var access_token = req.query.access_token || null;
-        var refresh_token = req.query.refresh_token || null;
-        var user_id = req.query.user_id || null;
-        var code = req.query.code || null;
         var error = req.query.error || null;
 
-        if (access_token != null && refresh_token != null && code != null) {
-        	res.cookie(sails.config.spotify.access_token_key, access_token);
-        	res.cookie(sails.config.spotify.refresh_token_key, refresh_token);
-            res.cookie(sails.config.spotify.user_id_key, user_id);
-            res.cookie(sails.config.spotify.code_key, code);
-            res.redirect(redirect_url + 
-               querystring.stringify({
-                   result: 'OK'
-               })
+        if (error == null) {
+            res.redirect(redirect_url +
+                    querystring.stringify({
+                        result: 'OK'
+                    })
             );
         } else {
             redirect_url = sails.config.url_base + '/admin/?';
-            res.redirect(redirect_url + 
-                querystring.stringify({
-                	result: 'NOK',
-                	error: error,
-                	message: 'No fu\u00e9 posible autenticarse en Spotify'
-                })
+            res.redirect(redirect_url +
+                    querystring.stringify({
+                        result: 'NOK',
+                        error: error,
+                        message: 'No fu\u00e9 posible autenticarse en Spotify'
+                    })
             );
         }
     },
@@ -225,33 +301,39 @@ module.exports = {
     get_user_play_lists: function (req, res) {
         sails.log.debug('/spotify/get_user_play_lists');
         var webApi = new SpotifyWebApi({
-        	clientId : sails.config.spotify.client_id,
-        	clientSecret : sails.config.spotify.client_secret,
-        	redirectUri : sails.config.spotify.redirect_uri
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
         });
-    	
-    	var storedAccessToken = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
+
+        var storedAccessToken = req.session ? req.session.access_token : null;
         sails.log.debug('access_token: ' + storedAccessToken);
-    	webApi.setAccessToken(storedAccessToken);
-    	var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
-    	webApi.setRefreshToken(storedRefreshToken);
+        webApi.setAccessToken(storedAccessToken);
+        var storedRefreshToken = req.session ? req.session.refresh_token : null;
+        webApi.setRefreshToken(storedRefreshToken);
         sails.log.debug('refresh_token: ' + storedRefreshToken);
         if (storedAccessToken != null) {
-            webApi.getMe().then(function (data) {
-                res.cookie(sails.config.spotify.user_id_key, data.id.toLowerCase());
-                return  webApi.getUserPlaylists(data.id.toLowerCase());
-            }).then(function (playlists) {
-                return res.json({
-                    result: 'OK',
-                    playlists: playlists
-                });
-            }).catch(function (err) {
-                sails.log.error('Something went wrong!', err);
+            if (req.session.spotifyUser && req.session.spotifyUser.id) {
+                webApi.getUserPlaylists(req.session.spotifyUser.id)
+                    .then(function (playlists) {
+                        return res.json({
+                            result: 'OK',
+                            playlists: playlists
+                        });
+                    }).catch(function (err) {
+                        sails.log.error('Something went wrong!', err);
+                        return res.json({
+                            result: 'NOK',
+                            message: err
+                        });
+                    });
+            } else {
+                sails.log.error('userSpotify.id is null');
                 return res.json({
                     result: 'NOK',
-                    message: err
+                    message: 'userSpotify.id is null'
                 });
-            });
+            }
         } else {
             sails.log.error('access_token is null');
             return res.json({
@@ -260,7 +342,7 @@ module.exports = {
             });
         }
     },
-    
+
     /**
      * Action blueprints:
      *    `/spotify/get_user_play_list`
@@ -271,15 +353,15 @@ module.exports = {
         sails.log.debug('playlist_id: ' + playlist_id);
         var playlist_owner_id = req.query.playlist_owner_id;
         sails.log.debug('playlist_owner_id: ' + playlist_owner_id);
-    	var webApi = new SpotifyWebApi({
-        	clientId : sails.config.spotify.client_id,
-        	clientSecret : sails.config.spotify.client_secret,
-        	redirectUri : sails.config.spotify.redirect_uri
+        var webApi = new SpotifyWebApi({
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
         });
-    	var storedAccessToken = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
-    	webApi.setAccessToken(storedAccessToken);
-    	var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
-    	webApi.setRefreshToken(storedRefreshToken);
+        var storedAccessToken = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
+        webApi.setAccessToken(storedAccessToken);
+        var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
+        webApi.setRefreshToken(storedRefreshToken);
         webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
             return res.json({
                 result: 'OK',
