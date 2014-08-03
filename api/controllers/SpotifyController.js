@@ -48,8 +48,8 @@ module.exports = {
 
         var stateKey = sails.config.spotify.stateKey;
         var storedState = req.cookies ? req.cookies[stateKey] : null;
-        sails.log.debug('storedState: '+storedState);
-        var redirect_url = sails.config.url_base + '/spotify/callback_result/?';
+        sails.log.debug('storedState: ' + storedState);
+        var redirect_url = sails.config.url_base + '/spotify/callback_result?';
 
         if (state === null || state !== storedState) {
             res.redirect(redirect_url +
@@ -78,6 +78,9 @@ module.exports = {
                     var access_token = body.access_token;
                     var refresh_token = body.refresh_token;
 
+                    sails.log.debug('Se agrega al objeto session los tokens obtenidos');
+                    // Save the amount of seconds until the access token expired
+                    req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + body.expires_in;
                     req.session.access_token = access_token;
                     req.session.refresh_token = refresh_token;
                     req.session.code = code;
@@ -204,19 +207,6 @@ module.exports = {
         });
     },
 
-
-    /**
-     * Action blueprints:
-     *    `/spotify/login`
-     */
-    login: function (req, res) {
-
-        // Send a JSON response
-        return res.json({
-            hello: 'world'
-        });
-    },
-
     /**
      * Action blueprints:
      *    `/spotify/authorize`
@@ -285,11 +275,10 @@ module.exports = {
             );
         } else {
             redirect_url = sails.config.url_base + '/admin/?';
+            sails.log.error(error);
             res.redirect(redirect_url +
                     querystring.stringify({
-                        result: 'NOK',
-                        error: error,
-                        message: 'No fu\u00e9 posible autenticarse en Spotify'
+                        result: 'NOK'
                     })
             );
         }
@@ -312,6 +301,14 @@ module.exports = {
         var storedRefreshToken = req.session ? req.session.refresh_token : null;
         webApi.setRefreshToken(storedRefreshToken);
         sails.log.debug('refresh_token: ' + storedRefreshToken);
+        if (storedAccessToken != null && storedRefreshToken != null && SpotifyService.isAccessTokenExpired(req)) {
+            webApi.refreshAccessToken().then(function (data) {
+                req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
+                sails.log.debug('Refreshed token. It now expires in ' + Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
+            }, function (err) {
+                sails.log.error('Could not refresh the token!', err);
+            });
+        }
         if (storedAccessToken != null) {
             if (req.session.spotifyUser && req.session.spotifyUser.id) {
                 webApi.getUserPlaylists(req.session.spotifyUser.id)
@@ -364,6 +361,14 @@ module.exports = {
         var storedRefreshToken = req.session ? req.session.refresh_token : null;
         webApi.setRefreshToken(storedRefreshToken);
         sails.log.debug('refresh_token: ' + storedRefreshToken);
+        if (storedAccessToken != null && storedRefreshToken != null && SpotifyService.isAccessTokenExpired(req)) {
+            webApi.refreshAccessToken().then(function (data) {
+                req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
+                sails.log.debug('Refreshed token. It now expires in ' + Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
+            }, function (err) {
+                sails.log.error('Could not refresh the token!', err);
+            });
+        }
         //TODO agregar validaciones
         webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
             return res.json({
@@ -383,6 +388,5 @@ module.exports = {
      * (specific to SpotifyController)
      */
     _config: {}
-
 
 };
