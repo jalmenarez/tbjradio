@@ -358,10 +358,13 @@ module.exports = {
             clientSecret: sails.config.spotify.client_secret,
             redirectUri: sails.config.spotify.redirect_uri
         });
-        var storedAccessToken = req.cookies ? req.cookies[sails.config.spotify.access_token_key] : null;
+        var storedAccessToken = req.session ? req.session.access_token : null;
+        sails.log.debug('access_token: ' + storedAccessToken);
         webApi.setAccessToken(storedAccessToken);
-        var storedRefreshToken = req.cookies ? req.cookies[sails.config.spotify.refresh_token_key] : null;
+        var storedRefreshToken = req.session ? req.session.refresh_token : null;
         webApi.setRefreshToken(storedRefreshToken);
+        sails.log.debug('refresh_token: ' + storedRefreshToken);
+        //TODO agregar validaciones
         webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
             return res.json({
                 result: 'OK',
