@@ -35,9 +35,5 @@
   "subdomain": "tbjradio",
   "engines": {
     "node": "0.10.x"
-  },
-  "devDependencies": {
-    "grunt": "^0.4.1",
-    "grunt-contrib-handlebars": "^0.8.0"
   }
 }
