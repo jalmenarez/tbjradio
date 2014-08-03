@@ -15,7 +15,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var SpotifyWebApi = require('spotify-web-api-node');
+var querystring = require('querystring');
 
 module.exports = {
 
@@ -53,18 +53,27 @@ module.exports = {
     dashboard: function (req, res) {
         sails.log.debug('/admin/dashboard');
         var result = req.query.result || null;
+        var redirect_url = sails.config.url_base + '/admin?';
         if (result != null && result == 'OK') {
             sails.log.debug('spotifyUser');
             sails.log.debug(req.session.spotifyUser);
             if (req.session.spotifyUser)
                 res.view({title: 'tbjradio :: dashboard', spotifyUser: req.session.spotifyUser});
             else {
-                sails.log.error('No hay un spotifyUser en la sesion');
-                res.view({title: 'tbjradio :: dashboard'});
+                sails.log.debug('No hay un spotifyUser en la sesion');
+                res.redirect(redirect_url +
+                        querystring.stringify({
+                            result: 'NO_SESSION'
+                        })
+                );
             }
         } else {
-            sails.log.error('Something went wrong');
-            res.view({title: 'tbjradio :: dashboard'});
+            sails.log.debug('El usuario no se ha logueado');
+            res.redirect(redirect_url +
+                    querystring.stringify({
+                        result: 'NOT_LOGGED'
+                    })
+            );
         }
     },
 
