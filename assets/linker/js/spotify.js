@@ -46,9 +46,9 @@ function loadPlaylists(data, div) {
 
 function loadPlaylist(data, div) {
     if (data.result === "OK") {
-        var html = "<h3>[Playlist: " + data.playlist.name + "]</h3>";
+        var html = "<h3>" + data.playlist.name + "</h3>";
         if (data.playlist.description !== null) {
-            html += "<p>description: " + data.playlist.description + "</p>";
+            html += "<p>" + data.playlist.description + "</p>";
         }
         if (data.playlist.images.length) {
             html += "<img style=\"background-image:url(" + data.playlist.images[0].link + ")\" class=\"cover\"/>";
