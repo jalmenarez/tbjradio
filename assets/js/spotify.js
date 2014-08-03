@@ -24,6 +24,7 @@ function getUserPlayList(url, parent, result) {
                 url: url,
                 data: {playlist_id: playlist_id, playlist_owner_id: playlist_owner_id},
                 success: function (data) {
+                    console.log(data);
                     loadPlaylist(data, result);
                 }
             });
@@ -33,7 +34,8 @@ function getUserPlayList(url, parent, result) {
 }
 
 function loadPlaylists(data, div) {
-    var html = '<ul>';
+    var html = '<h3>[Playlists]</h3>';
+    html += '<ul>';
     $.each(data.playlists.items, function (index, item) {
         html += '<li>';
         html += '<a href="#" class="load" data-id="' + item.id + '" data-owner-id="' + item.owner.id + '">' + item.name + '</a>';
@@ -45,13 +47,14 @@ function loadPlaylists(data, div) {
 
 function loadPlaylist(data, div) {
     if (data.result === "OK") {
-        var html = "<h2>" + data.playlist.name + "</h2>";
+        var html = "<h3>[Playlist: " + data.playlist.name + "]</h3>";
         if (data.playlist.description !== null) {
-            html += "<p>" + data.playlist.description + "</p>";
+            html += "<p>description: " + data.playlist.description + "</p>";
         }
         if (data.playlist.images.length) {
             html += "<img style=\"background-image:url(" + data.playlist.images[0].link + ")\" class=\"cover\"/>";
         }
+        html += "<br/>";
         html += "<table>";
         html += "<tr>";
         html += "<th>Track</th>";
