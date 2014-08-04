@@ -13,7 +13,9 @@ module.exports = {
 	  lastName: 'string',
 	  fullName: function() {
 	      return this.firstName + ' ' + this.lastName;
-	  }
+	  },
+      spotifyUserId: 'string',
+      isAdmin: 'boolean'
   }
 
 };
