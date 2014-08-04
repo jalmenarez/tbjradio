@@ -25,6 +25,9 @@ function getUserPlayList(url, parent, result) {
                 data: {playlist_id: playlist_id, playlist_owner_id: playlist_owner_id},
                 success: function (data) {
                     loadPlaylist(data, result);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $(result).html('error: ' + textStatus + " " + errorThrown);
                 }
             });
         }
@@ -73,5 +76,7 @@ function loadPlaylist(data, div) {
         });
         html += "</table>";
         $(div).html(html);
+    } else {
+        $(div).html('No fu\u00e9 posible obtener la lista de reproduccion desde Spotify');
     }
 }
