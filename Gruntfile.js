@@ -464,8 +464,7 @@ module.exports = function (grunt) {
     'compileAssets',
     'linkAssets',
     'clean:build',
-    'copy:build',
-    'filerev'
+    'copy:build'
   ]);
 
   // When sails is lifted in production
