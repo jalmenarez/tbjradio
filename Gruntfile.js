@@ -133,6 +133,7 @@ module.exports = function (grunt) {
   grunt.loadTasks(depsPath + '/grunt-contrib-cssmin/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-less/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-coffee/tasks');
+  grunt.loadTasks('node_modules/grunt-filerev/tasks');
 
   // Project configuration.
   grunt.initConfig({
@@ -409,7 +410,25 @@ module.exports = function (grunt) {
         // When assets are changed:
         tasks: ['compileAssets', 'linkAssets']
       }
-    }
+    },
+    
+    filerev: {
+        options: {
+          encoding: 'utf8',
+          algorithm: 'md5',
+          length: 8
+        },
+        source: {
+            files: [{
+                src: [
+                    'www/js/**/*.js',
+                    'www/linker/**/*.js',
+                    'www/assets/**/*.{jpg,jpeg,gif,png,ico}'
+                ]
+            }]
+        }
+      }
+    
   });
 
   // When Sails is lifted:
@@ -445,7 +464,8 @@ module.exports = function (grunt) {
     'compileAssets',
     'linkAssets',
     'clean:build',
-    'copy:build'
+    'copy:build',
+    'filerev'
   ]);
 
   // When sails is lifted in production
