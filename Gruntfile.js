@@ -229,25 +229,25 @@ module.exports = function (grunt) {
     concat: {
       js: {
         src: jsFilesToInject,
-        dest: '.tmp/public/concat/production.js'
+        dest: '.tmp/public/concat/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'
       },
       css: {
         src: cssFilesToInject,
-        dest: '.tmp/public/concat/production.css'
+        dest: '.tmp/public/concat/production-<%= pkg.version %>.css'
       }
     },
 
     uglify: {
       dist: {
-        src: ['.tmp/public/concat/production.js'],
-        dest: '.tmp/public/min/production.js'
+        src: ['.tmp/public/concat/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'],
+        dest: '.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'
       }
     },
 
     cssmin: {
       dist: {
-        src: ['.tmp/public/concat/production.css'],
-        dest: '.tmp/public/min/production.css'
+        src: ['.tmp/public/concat/production-<%= pkg.version %>.css'],
+        dest: '.tmp/public/min/production-<%= pkg.version %>.css'
       }
     },
 
@@ -275,9 +275,9 @@ module.exports = function (grunt) {
           appRoot: '.tmp/public'
         },
         files: {
-          '.tmp/public/**/*.html': ['.tmp/public/min/production.js'],
-          'views/**/*.html': ['.tmp/public/min/production.js'],
-          'views/**/*.ejs': ['.tmp/public/min/production.js']
+          '.tmp/public/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'],
+          'views/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'],
+          'views/**/*.ejs': ['.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js']
         }
       },
 
@@ -305,9 +305,9 @@ module.exports = function (grunt) {
           appRoot: '.tmp/public'
         },
         files: {
-          '.tmp/public/index.html': ['.tmp/public/min/production.css'],
-          'views/**/*.html': ['.tmp/public/min/production.css'],
-          'views/**/*.ejs': ['.tmp/public/min/production.css']
+          '.tmp/public/index.html': ['.tmp/public/min/production-<%= pkg.version %>.css'],
+          'views/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>.css'],
+          'views/**/*.ejs': ['.tmp/public/min/production-<%= pkg.version %>.css']
         }
       },
 
@@ -410,24 +410,7 @@ module.exports = function (grunt) {
         // When assets are changed:
         tasks: ['compileAssets', 'linkAssets']
       }
-    },
-    
-    filerev: {
-        options: {
-          encoding: 'utf8',
-          algorithm: 'md5',
-          length: 8
-        },
-        source: {
-            files: [{
-                src: [
-                    'www/js/**/*.js',
-                    'www/linker/**/*.js',
-                    'www/assets/**/*.{jpg,jpeg,gif,png,ico}'
-                ]
-            }]
-        }
-      }
+    }
     
   });
 
