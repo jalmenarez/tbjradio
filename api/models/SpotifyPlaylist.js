@@ -26,7 +26,12 @@ module.exports = {
     // Add a reference to SpotifyUser
     spotifyUserId: {
           type: 'string'
-    }
+    },
+    
+    // for tracks
+    spotifyPagingId: {
+    	  type: 'integer'
+    } 
 
   }
 
