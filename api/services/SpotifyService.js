@@ -17,31 +17,25 @@ module.exports = {
         return text;
     },
 
-    isAccessTokenExpired: function(req) {
-    	sails.log.debug('SpotifyService :: isAccessTokenExpired');
+    getTimeInSeconds: function(req) {
+    	sails.log.debug('SpotifyService :: getTimeInSeconds');
         if (req.session.tokenExpirationEpoch){
             var timeInSeconds = Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000);
             sails.log.debug('Retrieved token. It expires in ' + timeInSeconds + ' seconds!');
-            if(timeInSeconds > 0) {
-                return false;
-            }else {
-                return true;
-            }
+            return timeInSeconds;
         }else {
-            return true;
+            return -1;
         }
     },
     
     validateTokens: function(req, webApi){
     	sails.log.debug('SpotifyService :: validateTokens');
-    	var storedAccessToken = req.session ? req.session.access_token : null;
-        sails.log.debug('access_token: ' + storedAccessToken);
+    	var storedAccessToken = req.session ? req.session.access_token : null;       
         webApi.setAccessToken(storedAccessToken);
         var storedRefreshToken = req.session ? req.session.refresh_token : null;
-        webApi.setRefreshToken(storedRefreshToken);
-        sails.log.debug('refresh_token: ' + storedRefreshToken);
+        webApi.setRefreshToken(storedRefreshToken);   
         if(storedAccessToken != null && storedRefreshToken != null){
-        if (SpotifyService.isAccessTokenExpired(req)) {
+        if (SpotifyService.getTimeInSeconds(req) < 1000) {
             webApi.refreshAccessToken().then(function (data) {
                 req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
                 sails.log.debug('Refreshed token. It now expires in ' + Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
