@@ -15,7 +15,7 @@ module.exports.session = {
   // Session secret is automatically generated when your new app is created
   // Replace at your own risk in production-- you will invalidate the cookies of your users,
   // forcing them to log in again. 
-  secret: 'd407187ffc2eb4622712bb162e0e7083'
+  secret: 'd407187ffc2eb4622712bb162e0e7083',
 
 
   // In production, uncomment the following lines to set up a shared redis session store
@@ -35,20 +35,20 @@ module.exports.session = {
 
 
   // Uncomment the following lines to use your Mongo adapter as a session store
-  //adapter: 'mongo',
+  adapter: 'mongo',
   //
-  //host: 'localhost',
-  //port: 27017,
-  //db: 'sails',
-  //collection: 'sessions',
+  host: 'kahana.mongohq.com',
+  port: 10006,
+  db: 'tbjradiodb',
+  collection: 'sessions',
   //
   // Optional Values:
   //
   // # Note: url will override other connection settings
   // url: 'mongodb://user:pass@host:port/database/collection',
   //
-  //username: '',
-  //password: ''
+  username: 'jalmenarez',
+  password: '12345'
   // auto_reconnect: false,
   // ssl: false,
   // stringify: true
