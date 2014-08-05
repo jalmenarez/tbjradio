@@ -288,56 +288,43 @@ module.exports = {
      *   `/spotify/get_user_play_lists`
      */
     get_user_play_lists: function (req, res) {
-        sails.log.debug('/spotify/get_user_play_lists');
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
-
-        var storedAccessToken = req.session ? req.session.access_token : null;
-        sails.log.debug('access_token: ' + storedAccessToken);
-        webApi.setAccessToken(storedAccessToken);
-        var storedRefreshToken = req.session ? req.session.refresh_token : null;
-        webApi.setRefreshToken(storedRefreshToken);
-        sails.log.debug('refresh_token: ' + storedRefreshToken);
-        if (storedAccessToken != null && storedRefreshToken != null && SpotifyService.isAccessTokenExpired(req)) {
-            webApi.refreshAccessToken().then(function (data) {
-                req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
-                sails.log.debug('Refreshed token. It now expires in ' + Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
-            }, function (err) {
-                sails.log.error('Could not refresh the token!', err);
-            });
-        }
-        if (storedAccessToken != null) {
-            if (req.session.spotifyUser && req.session.spotifyUser.id) {
-                webApi.getUserPlaylists(req.session.spotifyUser.id)
-                    .then(function (playlists) {
-                        return res.json({
-                            result: 'OK',
-                            playlists: playlists
-                        });
-                    }).catch(function (err) {
-                        sails.log.error(err);
-                        return res.json({
-                            result: 'NOK',
-                            message: err
-                        });
-                    });
-            } else {
-                sails.log.error('userSpotify.id is null');
-                return res.json({
-                    result: 'NOK',
-                    message: 'userSpotify.id is null'
-                });
-            }
-        } else {
-            sails.log.error('access_token is null');
-            return res.json({
-                result: 'NOK',
-                message: 'access_token is null'
-            });
-        }
+    	sails.log.debug('/spotify/get_user_play_lists');
+    	//TODO buscar una forma de construir el objeto cada vez
+    	var webApi = new SpotifyWebApi({
+    		clientId: sails.config.spotify.client_id,
+    		clientSecret: sails.config.spotify.client_secret,
+    		redirectUri: sails.config.spotify.redirect_uri
+    	});
+    	if(SpotifyService.validateTokens(req, webApi)){
+    		if (req.session.spotifyUser && req.session.spotifyUser.id) {
+    			webApi.getUserPlaylists(req.session.spotifyUser.id)
+    			.then(function (playlists) {
+    				return res.json({
+    					result: 'OK',
+    					playlists: playlists
+    				});
+    			}).catch(function (err) {
+    				sails.log.error(err);
+    				return res.json({
+    					result: 'NOK',
+    					message: err
+    				});
+    			});
+    		} else {
+    			sails.log.error('userSpotify.id is null');
+    			return res.json({
+    				result: 'NOK',
+    				message: 'userSpotify.id is null'
+    			});
+    		}
+    	}else {
+    		var error = 'invalid tokens';
+    		sails.log.error(error);
+    		return res.json({
+    			result: 'NOK',
+    			error: error
+    		});
+    	}	
     },
 
     /**
@@ -356,6 +343,7 @@ module.exports = {
             clientSecret: sails.config.spotify.client_secret,
             redirectUri: sails.config.spotify.redirect_uri
         });
+        //TODO agregar validacion adicional para verificar que venga los campos necesario para hacer la peticion.
         if(SpotifyService.validateTokens(req, webApi)){
         	webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
         		return res.json({
