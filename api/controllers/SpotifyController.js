@@ -329,7 +329,7 @@ module.exports = {
     			});
     		}
     	}else {
-    		var error = 'invalid tokens';
+    		var error = 'INVALID_TOKENS';
     		sails.log.error(error);
     		return res.json({
     			result: 'NOK',
@@ -369,7 +369,7 @@ module.exports = {
         		});
         	});
         }else {
-        	var error = 'invalid tokens';
+        	var error = 'INVALID_TOKENS';
         	sails.log.error(error);
     		return res.json({
     			result: 'NOK',
