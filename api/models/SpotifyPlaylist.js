@@ -16,7 +16,13 @@ module.exports = {
     },
 
     name: 'string',
-
+    description: 'string',
+    external_urls: 'json',
+    images: 'json',
+    owner: 'json',
+    uri: 'string',
+    href: 'string',
+    
     // Add a reference to SpotifyUser
     spotifyUserId: {
           type: 'string'
