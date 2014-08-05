@@ -19,10 +19,20 @@ module.exports = {
       email: 'string',
       product: 'string',
       country: 'string',
+      href: 'string',
+      uri: 'string',
 
       // Add a reference to User
       userId: {
           type: 'integer'
+      },
+
+      spotifyImageIds: {
+          type: 'array'
+      },
+
+      spotifyExternalURLIds: {
+          type: 'array'
       }
 
   }
