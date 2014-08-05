@@ -35,7 +35,8 @@ module.exports = {
         var storedRefreshToken = req.session ? req.session.refresh_token : null;
         webApi.setRefreshToken(storedRefreshToken);   
         if(storedAccessToken != null && storedRefreshToken != null){
-        if (SpotifyService.getTimeInSeconds(req) < 1000) {
+        	var timeInSeconds = SpotifyService.getTimeInSeconds(req);
+        if (timeInSeconds < 120 && timeInSeconds > 0) {
             webApi.refreshAccessToken().then(function (data) {
                 req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
                 sails.log.debug('Refreshed token. It now expires in ' + Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
@@ -44,8 +45,10 @@ module.exports = {
                 sails.log.error(err);
                 return false;
             });
-        }else {
+        }else if(timeInSeconds > 120) {
         	return true;
+        }else {
+        	return false;
         }
         }else {
         	return false;
