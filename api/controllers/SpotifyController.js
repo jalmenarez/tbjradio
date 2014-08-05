@@ -318,7 +318,7 @@ module.exports = {
                             playlists: playlists
                         });
                     }).catch(function (err) {
-                        sails.log.error('Something went wrong!', err);
+                        sails.log.error(err);
                         return res.json({
                             result: 'NOK',
                             message: err
@@ -350,38 +350,33 @@ module.exports = {
         sails.log.debug('playlist_id: ' + playlist_id);
         var playlist_owner_id = req.query.playlist_owner_id;
         sails.log.debug('playlist_owner_id: ' + playlist_owner_id);
+        //TODO buscar una forma optima de construir este objeto
         var webApi = new SpotifyWebApi({
             clientId: sails.config.spotify.client_id,
             clientSecret: sails.config.spotify.client_secret,
             redirectUri: sails.config.spotify.redirect_uri
         });
-        var storedAccessToken = req.session ? req.session.access_token : null;
-        sails.log.debug('access_token: ' + storedAccessToken);
-        webApi.setAccessToken(storedAccessToken);
-        var storedRefreshToken = req.session ? req.session.refresh_token : null;
-        webApi.setRefreshToken(storedRefreshToken);
-        sails.log.debug('refresh_token: ' + storedRefreshToken);
-        if (storedAccessToken != null && storedRefreshToken != null && SpotifyService.isAccessTokenExpired(req)) {
-            webApi.refreshAccessToken().then(function (data) {
-                req.session.tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
-                sails.log.debug('Refreshed token. It now expires in ' + Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds!');
-            }, function (err) {
-                sails.log.error('Could not refresh the token!', err);
-            });
+        if(SpotifyService.validateTokens(req, webApi)){
+        	webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
+        		return res.json({
+        			result: 'OK',
+        			playlist: playlist
+        		});
+        	}).catch(function (err) {
+        		sails.log.error(err);
+        		return res.json({
+        			result: 'NOK',
+        			error: err
+        		});
+        	});
+        }else {
+        	var error = 'invalid tokens';
+        	sails.log.error(error);
+    		return res.json({
+    			result: 'NOK',
+    			error: error
+    		});
         }
-        //TODO agregar validaciones
-        webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
-            return res.json({
-                result: 'OK',
-                playlist: playlist
-            });
-        }).catch(function (err) {
-        	sails.log.error(err);
-            return res.json({
-                result: 'NOK',
-                error: err
-            });
-        });
     },
 
     /**
