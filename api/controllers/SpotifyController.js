@@ -376,6 +376,7 @@ module.exports = {
                 playlist: playlist
             });
         }).catch(function (err) {
+        	sails.log.error(err);
             return res.json({
                 result: 'NOK',
                 error: err
