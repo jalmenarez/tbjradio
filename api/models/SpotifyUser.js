@@ -27,12 +27,12 @@ module.exports = {
           type: 'integer'
       },
 
-      spotifyImageIds: {
-          type: 'array'
+      images: {
+          type: 'json'
       },
 
-      spotifyExternalURLIds: {
-          type: 'array'
+      external_urls: {
+          type: 'json'
       }
 
   }
