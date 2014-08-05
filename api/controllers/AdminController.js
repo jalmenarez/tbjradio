@@ -55,8 +55,7 @@ module.exports = {
         var result = req.query.result || null;
         var redirect_url = sails.config.url_base + '/admin?';
         if (result != null && result == 'OK') {
-            sails.log.debug('spotifyUser');
-            sails.log.debug(req.session.spotifyUser);
+            sails.log.debug('result: OK');
             if (req.session.spotifyUser)
                 res.view({title: 'tbjradio :: dashboard', spotifyUser: req.session.spotifyUser});
             else {
