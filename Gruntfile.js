@@ -229,7 +229,7 @@ module.exports = function (grunt) {
     concat: {
       js: {
         src: jsFilesToInject,
-        dest: '.tmp/public/concat/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'
+        dest: '.tmp/public/concat/production-<%= pkg.version %>.js'
       },
       css: {
         src: cssFilesToInject,
@@ -239,8 +239,8 @@ module.exports = function (grunt) {
 
     uglify: {
       dist: {
-        src: ['.tmp/public/concat/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'],
-        dest: '.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'
+        src: ['.tmp/public/concat/production-<%= pkg.version %>.js'],
+        dest: '.tmp/public/min/production-<%= pkg.version %>.js'
       }
     },
 
@@ -275,9 +275,9 @@ module.exports = function (grunt) {
           appRoot: '.tmp/public'
         },
         files: {
-          '.tmp/public/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'],
-          'views/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js'],
-          'views/**/*.ejs': ['.tmp/public/min/production-<%= pkg.version %>-<%= grunt.template.today("yyyymmddhhss") %>.js']
+          '.tmp/public/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>.js'],
+          'views/**/*.html': ['.tmp/public/min/production-<%= pkg.version %>.js'],
+          'views/**/*.ejs': ['.tmp/public/min/production-<%= pkg.version %>.js']
         }
       },
 
