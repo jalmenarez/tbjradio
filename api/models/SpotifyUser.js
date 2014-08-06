@@ -35,6 +35,38 @@ module.exports = {
           type: 'json'
       }
 
+  },
+  
+  createOrUpdate: function(options, cb){
+	  
+	  this.findOne(options.id).exec(function (err, spotifyUser) {
+		  if (err) return cb(err);
+		  if(!spotifyUser){
+			  // create spotifyUser
+			  this.create({
+                  id: options.id,
+                  display_name: options.display_name,
+                  email: options.email,
+                  product: options.product,
+                  country: options.country
+              }).exec(function (err, spotifyUser) {
+            	  if (err) return cb(err);
+            	  if (!spotifyUser) return cb(new Error('spotifyUser not created.'));
+            	  User.createOrUpdate(spotifyUser, function(err, user){
+            		  if (err) return cb(err);
+            		  if (!user) return cb(new Error('user not created.'));
+            		  spotifyUser.userId = user.id;
+            		  spotifyUser.save(cb);          		  
+            	  });
+              });
+		  } else {
+			  // update spotifyUser
+			  spotifyUser.display_name = options.display_name;
+			  //TODO agregar los campos restantes
+			  spotifyUser.save(cb);
+		  }
+
+	  });
   }
 
 };
