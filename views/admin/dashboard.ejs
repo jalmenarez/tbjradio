@@ -11,7 +11,7 @@
         <% if( typeof spotifyUser !== 'undefined' && spotifyUser) { %>
 
         <script type="text/javascript">
-            getUserPlayLists("<%- sails.config.url_base %>/spotify/get_user_play_lists", "#playlists-list");
+            getUserPlayLists("<%- sails.config.url_base %>/spotify/get_user_playlists", "#playlists-list");
         </script>
 
         <div id="user-profile">
@@ -44,7 +44,7 @@
         </div>
 
         <script type="text/javascript">
-            getUserPlayList("<%- sails.config.url_base %>/spotify/get_user_play_list", "#playlists-list", "#playlist-detail");
+            getUserPlayList("<%- sails.config.url_base %>/spotify/get_user_playlist", "#playlists-list", "#playlist-detail");
         </script>
 
         <% } %>
