@@ -36,7 +36,7 @@ module.exports = {
             redirectUri: sails.config.spotify.redirect_uri
         });
 
-        var code = req.query.code || null;     
+        var code = req.query.code || null;
         var state = req.query.state || null;
         var stateKey = sails.config.spotify.stateKey;
         var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -129,7 +129,7 @@ module.exports = {
                                         }
                                     });
                                 } else if (!err) {
-                                    if (!spotifyUser.userId) {                                   	
+                                    if (!spotifyUser.userId) {
                                         sails.log.debug('add user');
                                         User.create({
                                             spotifyUserId: spotifyUser.id
@@ -153,37 +153,37 @@ module.exports = {
                                             }
                                         });
                                     } else {
-                                    	req.session.spotifyUser = spotifyUser;     
-                                    	sails.log.debug('find user');
+                                        req.session.spotifyUser = spotifyUser;
+                                        sails.log.debug('find user');
                                         User.findOne({spotifyUserId: spotifyUser.id}).exec(function (err, user) {
                                             if (!err) {
                                                 req.session.user = user;
                                                 try {
-                                            		SpotifyUser.update({ id: spotifyUser.id }, 
-                                            				{ 
-                                            				 country: body.country,
-                                            				 display_name: body.display_name,
-                                            				 email: body.email,
-                                            				 images: body.images,
-                                            				 product: body.product,
-                                            				 external_urls: body.external_urls,
-                                            				 href: body.href,
-                                            				 uri: body.uri,
-                                            				 userId: user.id
-                                            				}
-                                            		)
-                                            		.exec(function (err, spotifyUser) {
-                                            			if (!err) {
-                                            				sails.log.debug('spotifyUser updated');
-                                            				req.session.spotifyUser = spotifyUser;
-                                            			} else {
-                                            				sails.log.error(err);
-                                            			}
-                                            		});
-                                            	}
-                                            	catch (e) {
-                                            		sails.log.error(e);	
-                                            	}
+                                                    SpotifyUser.update({ id: spotifyUser.id },
+                                                        {
+                                                            country: body.country,
+                                                            display_name: body.display_name,
+                                                            email: body.email,
+                                                            images: body.images,
+                                                            product: body.product,
+                                                            external_urls: body.external_urls,
+                                                            href: body.href,
+                                                            uri: body.uri,
+                                                            userId: user.id
+                                                        }
+                                                    )
+                                                        .exec(function (err, spotifyUser) {
+                                                            if (!err) {
+                                                                sails.log.debug('spotifyUser updated');
+                                                                req.session.spotifyUser = spotifyUser;
+                                                            } else {
+                                                                sails.log.error(err);
+                                                            }
+                                                        });
+                                                }
+                                                catch (e) {
+                                                    sails.log.error(e);
+                                                }
                                                 res.redirect(redirect_url);
                                             } else {
                                                 sails.log.error(err);
@@ -299,43 +299,43 @@ module.exports = {
      *   `/spotify/get_user_play_lists`
      */
     get_user_play_lists: function (req, res) {
-    	sails.log.debug('/spotify/get_user_play_lists');
-    	//TODO buscar una forma de construir el objeto cada vez
-    	var webApi = new SpotifyWebApi({
-    		clientId: sails.config.spotify.client_id,
-    		clientSecret: sails.config.spotify.client_secret,
-    		redirectUri: sails.config.spotify.redirect_uri
-    	});
-    	if(SpotifyService.validateTokens(req, webApi)){
-    		if (req.session.spotifyUser && req.session.spotifyUser.id) {
-    			webApi.getUserPlaylists(req.session.spotifyUser.id)
-    			.then(function (playlists) {
-    				return res.json({
-    					result: 'OK',
-    					playlists: playlists
-    				});
-    			}).catch(function (err) {
-    				sails.log.error(err);
-    				return res.json({
-    					result: 'NOK',
-    					message: err
-    				});
-    			});
-    		} else {
-    			sails.log.error('userSpotify.id is null');
-    			return res.json({
-    				result: 'NOK',
-    				message: 'userSpotify.id is null'
-    			});
-    		}
-    	}else {
-    		var error = 'INVALID_TOKENS';
-    		sails.log.error(error);
-    		return res.json({
-    			result: 'NOK',
-    			error: error
-    		});
-    	}	
+        sails.log.debug('/spotify/get_user_play_lists');
+        //TODO buscar una forma de construir el objeto cada vez
+        var webApi = new SpotifyWebApi({
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
+        });
+        if (SpotifyService.validateTokens(req, webApi)) {
+            if (req.session.spotifyUser && req.session.spotifyUser.id) {
+                webApi.getUserPlaylists(req.session.spotifyUser.id)
+                    .then(function (playlists) {
+                        return res.json({
+                            result: 'OK',
+                            playlists: playlists
+                        });
+                    }).catch(function (err) {
+                        sails.log.error(err);
+                        return res.json({
+                            result: 'NOK',
+                            message: err
+                        });
+                    });
+            } else {
+                sails.log.error('userSpotify.id is null');
+                return res.json({
+                    result: 'NOK',
+                    message: 'userSpotify.id is null'
+                });
+            }
+        } else {
+            var error = 'INVALID_TOKENS';
+            sails.log.error(error);
+            return res.json({
+                result: 'NOK',
+                error: error
+            });
+        }
     },
 
     /**
@@ -355,26 +355,115 @@ module.exports = {
             redirectUri: sails.config.spotify.redirect_uri
         });
         //TODO agregar validacion adicional para verificar que venga los campos necesario para hacer la peticion.
-        if(SpotifyService.validateTokens(req, webApi)){
-        	webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
-        		return res.json({
-        			result: 'OK',
-        			playlist: playlist
-        		});
-        	}).catch(function (err) {
-        		sails.log.error(err);
-        		return res.json({
-        			result: 'NOK',
-        			error: err
-        		});
-        	});
-        }else {
-        	var error = 'INVALID_TOKENS';
-        	sails.log.error(error);
-    		return res.json({
-    			result: 'NOK',
-    			error: error
-    		});
+        if (SpotifyService.validateTokens(req, webApi)) {
+            webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
+                return res.json({
+                    result: 'OK',
+                    playlist: playlist
+                });
+            }).catch(function (err) {
+                sails.log.error(err);
+                return res.json({
+                    result: 'NOK',
+                    error: err
+                });
+            });
+        } else {
+            var error = 'INVALID_TOKENS';
+            sails.log.error(error);
+            return res.json({
+                result: 'NOK',
+                error: error
+            });
+        }
+    },
+
+    /**
+     * Action blueprints:
+     *    `/spotify/synchronize_playlists`
+     */
+    synchronize_playlists: function (req, res) {
+        sails.log.debug('/spotify/synchronize_playlists');
+        //TODO buscar una forma optima de construir este objeto
+        var webApi = new SpotifyWebApi({
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
+        });
+        if (SpotifyService.validateTokens(req, webApi)) {
+            if (req.session.spotifyUser && req.session.spotifyUser.id) {
+                webApi.getUserPlaylists(req.session.spotifyUser.id)
+                    .then(function (playlists) {
+                        //TODO terminar de agregar la informacion de las playlists
+                        var total = playlists.total;
+                        var limit = playlists.limit;
+                        var next = playlists.next;
+                        var offset = playlists.offset;
+                        var previous = playlists.previous;
+                        var href = playlists.href;
+                        playlists.items.forEach(function (item) {
+                            SpotifyPlaylist.findOne({ id: item.id }).exec(function (err, spotifyPlaylist) {
+                                if (!err && !spotifyPlaylist) {
+                                    sails.log.debug('creating spotifyPlaylist');
+                                    sails.log.debug('id: ' + item.id);
+                                    sails.log.debug('name: ' + item.name);
+                                    // create
+                                    SpotifyPlaylist.create({
+                                        name: item.name,
+                                        id: item.id
+                                    }).exec(function (err, spotifyPlaylist) {
+                                        if (!err) {
+                                            sails.log.debug('created spotifyPlaylist');
+                                            sails.log.debug(spotifyPlaylist);
+                                        } else {
+                                            sails.log.error('error creating spotifyPlaylist', err);
+                                        }
+                                    });
+                                } else if (!err) {
+                                    sails.log.debug('updating spotifyPlaylist');
+                                    sails.log.debug('name: ' + item.id);
+                                    sails.log.debug('name: ' + item.name);
+                                    // update
+                                    SpotifyPlaylist.update({ id: item.id },
+                                        {
+                                            name: item.name
+                                        }).exec(function (err, spotifyPlaylist) {
+                                            if (!err) {
+                                                sails.log.debug('updated spotifyPlaylist');
+                                                sails.log.debug(spotifyPlaylist);
+                                            } else {
+                                                sails.log.error('error updating spotifyPlaylist', err);
+                                            }
+                                        });
+                                } else {
+                                    sails.log.error(err);
+                                }
+                            });
+                        });
+                        return res.json({
+                            result: 'OK'
+                        });
+                    }).catch(function (err) {
+                        sails.log.error(err);
+                        return res.json({
+                            result: 'NOK',
+                            message: err
+                        });
+                    });
+            } else {
+                sails.log.error('userSpotify.id is null');
+                return res.json({
+                    result: 'NOK',
+                    message: 'userSpotify.id is null'
+                });
+            }
+        } else {
+            var error = 'INVALID_TOKENS';
+            sails.log.error(error);
+            return res.json({
+                result: 'NOK',
+                error: error
+            });
         }
     },
 

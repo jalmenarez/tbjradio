@@ -9,6 +9,10 @@ module.exports = {
 
   attributes: {
 
+      name: 'string',
+      createBy: 'integer',
+      spotifyPlaylistId: 'string'
+
   }
 };
 
