@@ -81,114 +81,17 @@ module.exports = {
                     // use the access token to access the Spotify Web API
                     request.get(options, function (error, response, body) {
                         if (!error && body && body.type === 'user') {
-                            var user_id = body.id.toLowerCase();
-                            //TODO optimizar el proceso de rescatar el usuario desde la base de datos.
-                            // Se busca si existe un usuario spotify para el user_id obtenido.
-                            SpotifyUser.findOne(user_id).exec(function (err, spotifyUser) {
-                                if (!err && !spotifyUser) {
-                                    sails.log.debug("add spotifyUser");
-                                    //TODO Agregar usuario Spotify con toda la informacion necesaria
-                                    SpotifyUser.create({
-                                        id: user_id,
-                                        display_name: body.display_name,
-                                        email: body.email,
-                                        product: body.product,
-                                        country: body.country,
-                                        userId: -1
-                                    }).exec(function (err, spotifyUser) {
-                                        if (!err) {
-                                            sails.log.debug('spotifyUser added');
-                                            req.session.spotifyUser = spotifyUser;
-                                            User.findOne({spotifyUserId: spotifyUser.id}).exec(function (err, user) {
-                                                if (!err && !user) {
-                                                    sails.log.debug('add user');
-                                                    User.create({
-                                                        spotifyUserId: spotifyUser.id
-                                                    }).exec(function (err, user) {
-                                                        if (!err) {
-                                                            sails.log.debug('user added');
-                                                            req.session.user = user;
-                                                            res.redirect(redirect_url);
-                                                        } else {
-                                                            sails.log.error(err);
-                                                        }
-                                                    });
-                                                } else if (!err) {
-                                                    req.session.user = user;
-                                                    res.redirect(redirect_url);
-                                                } else {
-                                                    sails.log.error(err);
-                                                }
-                                            });
-                                        } else {
-                                            sails.log.error(err);
-                                        }
-                                    });
-                                } else if (!err) {
-                                    if (!spotifyUser.userId) {
-                                        sails.log.debug('add user');
-                                        User.create({
-                                            spotifyUserId: spotifyUser.id
-                                        }).exec(function (err, user) {
-                                            if (!err) {
-                                                sails.log.debug('user added');
-                                                req.session.user = user;
-                                                //TODO actualizar usuario Spotify con toda la informacion necesaria
-                                                SpotifyUser.update({ id: spotifyUser.id }, { userId: user.id })
-                                                    .exec(function (err, spotifyUser) {
-                                                        if (!err) {
-                                                            sails.log.debg('spotifyUser updated');
-                                                            req.session.spotifyUser = spotifyUser;
-                                                            res.redirect(redirect_url);
-                                                        } else {
-                                                            sails.log.error(err);
-                                                        }
-                                                    });
-                                            } else {
-                                                sails.log.error(err);
-                                            }
-                                        });
-                                    } else {
-                                        req.session.spotifyUser = spotifyUser;
-                                        sails.log.debug('find user');
-                                        User.findOne({spotifyUserId: spotifyUser.id}).exec(function (err, user) {
-                                            if (!err) {
-                                                req.session.user = user;
-                                                try {
-                                                    SpotifyUser.update({ id: spotifyUser.id },
-                                                        {
-                                                            country: body.country,
-                                                            display_name: body.display_name,
-                                                            email: body.email,
-                                                            images: body.images,
-                                                            product: body.product,
-                                                            external_urls: body.external_urls,
-                                                            href: body.href,
-                                                            uri: body.uri,
-                                                            userId: user.id
-                                                        }
-                                                    )
-                                                        .exec(function (err, spotifyUser) {
-                                                            if (!err) {
-                                                                sails.log.debug('spotifyUser updated');
-                                                                req.session.spotifyUser = spotifyUser;
-                                                            } else {
-                                                                sails.log.error(err);
-                                                            }
-                                                        });
-                                                }
-                                                catch (e) {
-                                                    sails.log.error(e);
-                                                }
-                                                res.redirect(redirect_url);
-                                            } else {
-                                                sails.log.error(err);
-                                            }
-                                        });
-                                    }
-                                } else {
-                                    sails.log.error(err);
-                                }
+                            var id = body.id.toLowerCase();
+                            SpotifyUser.createOrUpdate({id: id}, function(err, spotifyUser){
+                            	if(err) {
+                            		sails.log.error(err);
+                            	}else if(!spotifyUser) {
+                            		sails.log.error("SpotifyUser.createOrUpdate void answer");
+                            	} else {
+                            		req.session.spotifyUser = spotifyUser;  
+                            		//TODO agregar a session el user
+                            	}
+                            	res.redirect(redirect_url);
                             });
                         }
                     });
