@@ -91,12 +91,7 @@ module.exports = {
      */
     synchronize: function (req, res) {
         sails.log.debug('/playlist/synchronize');
-        //TODO buscar una forma optima de construir este objeto
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
+        var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         if (SpotifyService.validateTokens(req, webApi)) {
             if (req.session.spotifyUser && req.session.spotifyUser.id) {
                 webApi.getUserPlaylists(req.session.spotifyUser.id)
