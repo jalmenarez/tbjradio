@@ -16,6 +16,25 @@ module.exports = {
 	  },
       spotifyUserId: 'string',
       isAdmin: 'boolean'
+  },
+  
+  createOrUpdate: function(options, cb){
+	  // find user
+	  this.findOne({spotifyUserId: options.spotifyUserId}).exec(function (err, user) {
+		  if (err) return cb(err);
+		  if (!user){
+			  // create user
+			  User.create({
+                  spotifyUserId: options.spotifyUserId
+              }).exec(function (err, user) {
+            	  if (err) return cb(err);
+            	  cb(user);
+              });
+		  }else {
+			  // update user
+			  //TODO completar metodo
+		  }          			  
+	  });
   }
 
 };
