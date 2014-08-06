@@ -30,11 +30,7 @@ module.exports = {
 
         sails.log.debug('/spotify/callback');
 
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
+        var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
 
         var code = req.query.code || null;
         var state = req.query.state || null;
@@ -55,10 +51,10 @@ module.exports = {
                 url: 'https://accounts.spotify.com/api/token',
                 form: {
                     code: code,
-                    redirect_uri: sails.config.spotify.redirect_uri,
+                    redirect_uri: sails.config.spotify.credentials.redirectUri,
                     grant_type: 'authorization_code',
-                    client_id: sails.config.spotify.client_id,
-                    client_secret: sails.config.spotify.client_secret
+                    client_id: sails.config.spotify.credentials.clientId,
+                    client_secret: sails.config.spotify.credentials.clientSecret
                 },
                 json: true
             };
@@ -228,11 +224,7 @@ module.exports = {
         var state = SpotifyService.generateRandomString(16);
         // Lista de scopes a los que se les va pedir al usuario.
         var scopes = ['playlist-read-private', 'user-read-private'];
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
+        var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         var authorizeURL = webApi.createAuthorizeURL(scopes, state);
         res.cookie(sails.config.spotify.stateKey, state);
         // Se hace un redirect a la url de autorizacion.
@@ -248,11 +240,7 @@ module.exports = {
         var state = SpotifyService.generateRandomString(16);
         // Lista de scopes a los que se les va pedir al usuario.
         var scopes = ['playlist-read-private', 'user-read-private'];
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
+        var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         var authorizeURL = webApi.createAuthorizeURL(scopes, state);
         if (authorizeURL != null) {
             sails.log.debug('authorizeURL: ' + authorizeURL);
@@ -300,12 +288,7 @@ module.exports = {
      */
     get_user_play_lists: function (req, res) {
         sails.log.debug('/spotify/get_user_play_lists');
-        //TODO buscar una forma de construir el objeto cada vez
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
+        var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         if (SpotifyService.validateTokens(req, webApi)) {
             if (req.session.spotifyUser && req.session.spotifyUser.id) {
                 webApi.getUserPlaylists(req.session.spotifyUser.id)
@@ -348,12 +331,7 @@ module.exports = {
         sails.log.debug('playlist_id: ' + playlist_id);
         var playlist_owner_id = req.query.playlist_owner_id;
         sails.log.debug('playlist_owner_id: ' + playlist_owner_id);
-        //TODO buscar una forma optima de construir este objeto
-        var webApi = new SpotifyWebApi({
-            clientId: sails.config.spotify.client_id,
-            clientSecret: sails.config.spotify.client_secret,
-            redirectUri: sails.config.spotify.redirect_uri
-        });
+        var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         //TODO agregar validacion adicional para verificar que venga los campos necesario para hacer la peticion.
         if (SpotifyService.validateTokens(req, webApi)) {
             webApi.getPlaylist(playlist_owner_id, playlist_id).then(function (playlist) {
