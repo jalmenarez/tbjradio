@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var SpotifyWebApi = require('spotify-web-api-node');
+
 module.exports = {
 
 
@@ -82,7 +84,7 @@ module.exports = {
      *    `/playlist/get_all`
      */
     get_all: function (req, res) {
-        SpotifyPlaylist.find().exec(function(err, playlists){
+        Playlist.find().exec(function(err, playlists){
             if(!err){
                 return res.json({
                     status: 'OK',
@@ -94,6 +96,95 @@ module.exports = {
                 });
             }
         });
+    },
+    
+    /**
+     * Action blueprints:
+     *    `/playlist/synchronize`
+     */
+    synchronize: function (req, res) {
+        sails.log.debug('/playlist/synchronize');
+        //TODO buscar una forma optima de construir este objeto
+        var webApi = new SpotifyWebApi({
+            clientId: sails.config.spotify.client_id,
+            clientSecret: sails.config.spotify.client_secret,
+            redirectUri: sails.config.spotify.redirect_uri
+        });
+        if (SpotifyService.validateTokens(req, webApi)) {
+            if (req.session.spotifyUser && req.session.spotifyUser.id) {
+                webApi.getUserPlaylists(req.session.spotifyUser.id)
+                    .then(function (playlists) {
+                        //TODO terminar de agregar la informacion de las playlists
+                        var total = playlists.total;
+                        var limit = playlists.limit;
+                        var next = playlists.next;
+                        var offset = playlists.offset;
+                        var previous = playlists.previous;
+                        var href = playlists.href;
+                        playlists.items.forEach(function (item) {
+                            Playlist.findOne({ id: item.id }).exec(function (err, spotifyPlaylist) {
+                                if (!err && !spotifyPlaylist) {
+                                    sails.log.debug('creating playlist');
+                                    sails.log.debug('id: ' + item.id);
+                                    sails.log.debug('name: ' + item.name);
+                                    // create
+                                    Playlist.create({
+                                        name: item.name,
+                                        id: item.id
+                                    }).exec(function (err, spotifyPlaylist) {
+                                        if (!err) {
+                                            sails.log.debug('created playlist');
+                                            sails.log.debug(spotifyPlaylist);
+                                        } else {
+                                            sails.log.error('error creating playlist', err);
+                                        }
+                                    });
+                                } else if (!err) {
+                                    sails.log.debug('updating playlist');
+                                    sails.log.debug('name: ' + item.id);
+                                    sails.log.debug('name: ' + item.name);
+                                    // update
+                                    Playlist.update({ id: item.id },
+                                        {
+                                            name: item.name
+                                        }).exec(function (err, spotifyPlaylist) {
+                                            if (!err) {
+                                                sails.log.debug('updated playlist');
+                                                sails.log.debug(spotifyPlaylist);
+                                            } else {
+                                                sails.log.error('error updating playlist', err);
+                                            }
+                                        });
+                                } else {
+                                    sails.log.error(err);
+                                }
+                            });
+                        });
+                        return res.json({
+                            result: 'OK'
+                        });
+                    }).catch(function (err) {
+                        sails.log.error(err);
+                        return res.json({
+                            result: 'NOK',
+                            message: err
+                        });
+                    });
+            } else {
+                sails.log.error('userSpotify.id is null');
+                return res.json({
+                    result: 'NOK',
+                    message: 'userSpotify.id is null'
+                });
+            }
+        } else {
+            var error = 'INVALID_TOKENS';
+            sails.log.error(error);
+            return res.json({
+                result: 'NOK',
+                error: error
+            });
+        }
     },
 
 
