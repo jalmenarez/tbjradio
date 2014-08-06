@@ -66,19 +66,6 @@ module.exports = {
         });
     },
 
-
-    /**
-     * Action blueprints:
-     *    `/playlist/delete`
-     */
-    delete: function (req, res) {
-
-        // Send a JSON response
-        return res.json({
-            hello: 'world'
-        });
-    },
-
     /**
      * Action blueprints:
      *    `/playlist/get_all`
