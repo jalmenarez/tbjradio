@@ -15,7 +15,8 @@ module.exports = {
 	  offset: 'integer',
 	  previous: 'string',
 	  total: 'integer',  
-	  items: 'json'   		  
+	  items: 'json',
+	  spotifyPlaylistId: 'string'
   }
 
 };
