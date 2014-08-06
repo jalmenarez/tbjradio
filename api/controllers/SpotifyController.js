@@ -263,21 +263,35 @@ module.exports = {
      */
     callback_result: function (req, res) {
         sails.log.debug('/spotify/callback_result');
-        var redirect_url = sails.config.url_base + '/admin/dashboard/?';
+        var redirect_url = null;
         var error = req.query.error || null;
 
-        if (error == null) {
-            res.redirect(redirect_url +
-                    querystring.stringify({
-                        result: 'OK'
-                    })
-            );
+        if (error == null) {             	
+        	if(req.session.spotifyUser){
+        		req.session.authenticated = true;
+        		redirect_url = sails.config.url_base + '/admin/dashboard?';
+                res.redirect(redirect_url +
+                        querystring.stringify({
+                            result: 'OK'
+                        })
+                );
+        	} else {
+        		req.session.authenticated = false;
+        		redirect_url = sails.config.url_base + '/admin?';
+        		error = 'No se ha autenticado';
+        		sails.log.error(error);
+        		res.redirect(redirect_url +
+        				querystring.stringify({
+        					result: 'NO_SESSION'
+        				})
+        		);
+        	}       	
         } else {
-            redirect_url = sails.config.url_base + '/admin/?';
+            redirect_url = sails.config.url_base + '/admin?';
             sails.log.error(error);
             res.redirect(redirect_url +
                     querystring.stringify({
-                        result: 'NOK'
+                        result: 'NOT_LOGGED'
                     })
             );
         }
@@ -286,8 +300,8 @@ module.exports = {
     /** Action blueprints:
      *   `/spotify/get_user_play_lists`
      */
-    get_user_play_lists: function (req, res) {
-        sails.log.debug('/spotify/get_user_play_lists');
+    get_user_playlists: function (req, res) {
+        sails.log.debug('/spotify/get_user_playlists');
         var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         if (SpotifyService.validateTokens(req, webApi)) {
             if (req.session.spotifyUser && req.session.spotifyUser.id) {
@@ -323,10 +337,10 @@ module.exports = {
 
     /**
      * Action blueprints:
-     *    `/spotify/get_user_play_list`
+     *    `/spotify/get_user_playlist`
      */
-    get_user_play_list: function (req, res) {
-        sails.log.debug('/spotify/get_user_play_list');
+    get_user_playlist: function (req, res) {
+        sails.log.debug('/spotify/get_user_playlist');
         var playlist_id = req.query.playlist_id;
         sails.log.debug('playlist_id: ' + playlist_id);
         var playlist_owner_id = req.query.playlist_owner_id;
