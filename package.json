@@ -1,7 +1,7 @@
 {
   "name": "tbjradio",
   "private": true,
-  "version": "0.0.1-38",
+  "version": "0.0.1-41",
   "description": "It's just a demo app",
   "dependencies": {
     "async": "0.9.0",
@@ -16,7 +16,7 @@
     "request": "2.34.0",
     "sails": "0.9.16",
     "sails-disk": "0.9.0",
-	"sails-mongo": "0.9.8",    
+    "sails-mongo": "0.9.8",
     "sails-util": "0.10.3",
     "spotify-web-api-node": "0.0.10"
   },
