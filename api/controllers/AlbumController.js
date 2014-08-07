@@ -20,7 +20,8 @@ module.exports = {
 
     /**
      * Action blueprints:
-     *    `/album/create`
+     *   `/album/create`
+     *   POST `/album
      */
     create: function (req, res) {
         var status = null;
@@ -67,9 +68,9 @@ module.exports = {
 
     /**
      * Action blueprints:
-     *    `/album/delete`
+     *    `/album/destroy/:id?`
      */
-    delete: function (req, res) {
+    destroy: function (req, res) {
 
         // Send a JSON response
         return res.json({
