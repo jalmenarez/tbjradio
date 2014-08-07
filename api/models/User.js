@@ -23,18 +23,15 @@ module.exports = {
 	  // find user
 	  this.findOne({spotifyUserId: options.id}).exec(function (err, user) {
 		  if (err) { 
-			  sails.log.debug('error');
-			  sails.log.error(err);
 			  return cb(err);
 		  } else if (!user){
 			  // create user
 			  sails.log.debug('create user');
 			  User.create({
                   spotifyUserId: options.id
+                  //TODO agregar los datos restantes
               }).exec(function (err, user) {
             	  if (err) {
-            		  sails.log.debug('error');
-        			  sails.log.error(err);
             		  return cb(err);
             	  }   
             	  sails.log.debug('created user');
