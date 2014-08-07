@@ -103,48 +103,18 @@ module.exports = {
                         var offset = playlists.offset;
                         var previous = playlists.previous;
                         var href = playlists.href;
-                        playlists.items.forEach(function (item) {
-                            Playlist.findOne({ id: item.id }).exec(function (err, spotifyPlaylist) {
-                                if (!err && !spotifyPlaylist) {
-                                    sails.log.debug('creating playlist');
-                                    sails.log.debug('id: ' + item.id);
-                                    sails.log.debug('name: ' + item.name);
-                                    // create
-                                    Playlist.create({
-                                        name: item.name,
-                                        id: item.id
-                                    }).exec(function (err, spotifyPlaylist) {
-                                        if (!err) {
-                                            sails.log.debug('created playlist');
-                                            sails.log.debug(spotifyPlaylist);
-                                        } else {
-                                            sails.log.error('error creating playlist', err);
-                                        }
-                                    });
-                                } else if (!err) {
-                                    sails.log.debug('updating playlist');
-                                    sails.log.debug('name: ' + item.id);
-                                    sails.log.debug('name: ' + item.name);
-                                    // update
-                                    Playlist.update({ id: item.id },
-                                        {
-                                            name: item.name
-                                        }).exec(function (err, spotifyPlaylist) {
-                                            if (!err) {
-                                                sails.log.debug('updated playlist');
-                                                sails.log.debug(spotifyPlaylist);
-                                            } else {
-                                                sails.log.error('error updating playlist', err);
-                                            }
-                                        });
-                                } else {
-                                    sails.log.error(err);
-                                }
-                            });
-                        });
-                        return res.json({
-                            result: 'OK'
-                        });
+                        Playlist.createOrUpdateAll(playlists.items, function(err){
+                        	if(err) {
+                        		return res.json({
+                                    result: 'NOK',
+                                    error: err
+                                });
+                        	}else {
+                        		return res.json({
+                                    result: 'OK'
+                                });
+                        	}
+                        });                       
                     }).catch(function (err) {
                         sails.log.error(err);
                         return res.json({
