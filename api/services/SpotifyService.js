@@ -21,7 +21,7 @@ module.exports = {
     	sails.log.debug('SpotifyService :: getTimeInSeconds');
         if (req.session.tokenExpirationEpoch){
             var timeInSeconds = Math.floor(req.session.tokenExpirationEpoch - new Date().getTime() / 1000);
-            sails.log.debug('Retrieved token. It expires in ' + timeInSeconds + ' seconds!');
+            sails.log.info('Retrieved token. It expires in ' + timeInSeconds + ' seconds!');
             return timeInSeconds;
         }else {
             return -1;
