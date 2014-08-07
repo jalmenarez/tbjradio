@@ -80,16 +80,14 @@ module.exports = {
 
                     // use the access token to access the Spotify Web API
                     request.get(options, function (error, response, body) {
-                        if (!error && body && body.type === 'user') {
-                            var id = body.id.toLowerCase();
-                            SpotifyUser.createOrUpdate({id: id}, function(err, spotifyUser){
+                        if (!error && body && body.type === 'user') {                          
+                            SpotifyUser.createOrUpdate(body, function(err, spotifyUser){
                             	if(err) {
                             		sails.log.error(err);
                             	}else if(!spotifyUser) {
                             		sails.log.error("SpotifyUser.createOrUpdate void answer");
-                            	} else {
-                            		req.session.spotifyUser = spotifyUser;  
-                            		//TODO agregar a session el user
+                            	} else {                           		                               	
+                               		req.session.spotifyUser = spotifyUser;                            			                                	                   		                            		
                             	}
                             	res.redirect(redirect_url);
                             });
