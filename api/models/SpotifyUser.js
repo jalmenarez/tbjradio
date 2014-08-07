@@ -22,7 +22,7 @@ module.exports = {
       href: 'string',
       uri: 'string',
 
-      // Add a reference to User
+      // a reference to User
       userId: {
           type: 'integer'
       },
@@ -38,34 +38,67 @@ module.exports = {
   },
   
   createOrUpdate: function(options, cb){
-	  
-	  this.findOne(options.id).exec(function (err, spotifyUser) {
-		  if (err) return cb(err);
-		  if(!spotifyUser){
+	  sails.log.debug('SpotifyUser :: createOrUpdate');
+	  //find spotifyUser
+	  SpotifyUser.findOne(options.id).exec(function (err, spotifyUser) {
+		  if (err) {
+			  return cb(err);
+		  } else if(!spotifyUser){
 			  // create spotifyUser
-			  this.create({
+			  sails.log.debug("create spotifyUser");
+			  SpotifyUser.create({
                   id: options.id,
                   display_name: options.display_name,
                   email: options.email,
                   product: options.product,
-                  country: options.country
+                  country: options.country,
+                  external_urls: options.external_urls,
+                  images: options.images,
+                  href: options.href,
+                  uri: options.uri
               }).exec(function (err, spotifyUser) {
-            	  if (err) return cb(err);
-            	  if (!spotifyUser) return cb(new Error('spotifyUser not created.'));
-            	  User.createOrUpdate(spotifyUser, function(err, user){
-            		  if (err) return cb(err);
-            		  if (!user) return cb(new Error('user not created.'));
-            		  spotifyUser.userId = user.id;
-            		  spotifyUser.save(cb);          		  
-            	  });
+            	  if (err){ 
+            		  return cb(err);
+            	  } else if (!spotifyUser) { 
+            		  return cb(new Error('spotifyUser not created.'));
+            	  } else {
+            		  sails.log.debug('created spotifyUser');            		  
+            		  User.createOrUpdate(spotifyUser, function(err, user){
+                   		  if (err){
+                   			  sails.log.error(err);
+                   		  } else if (!user) {
+                   			  sails.log.error("User.createOrUpdate void answer");
+                   		  } else {
+                   			sails.log.debug("updated spotifyUser");
+                   		    spotifyUser.userId = user.id;                       			  
+                   		  } 
+                   		  spotifyUser.save(cb);    
+                   	  });
+            	  }          	  
               });
 		  } else {
 			  // update spotifyUser
+			  sails.log.debug("update spotifyUser");
 			  spotifyUser.display_name = options.display_name;
-			  //TODO agregar los campos restantes
-			  spotifyUser.save(cb);
+			  spotifyUser.email = options.email;
+			  spotifyUser.images = options.images;
+			  spotifyUser.product = options.product;
+			  spotifyUser.external_urls = options.external_urls;
+			  spotifyUser.href = options.href;
+			  spotifyUser.uri = options.uri;
+			  spotifyUser.country = options.country;
+			  User.createOrUpdate(spotifyUser, function(err, user){
+           		  if (err){
+           			  sails.log.error(err);
+           		  } else if (!user) {
+           			  sails.log.error("User.createOrUpdate void answer");
+           		  } else {
+           			sails.log.debug("updated spotifyUser");
+           		    spotifyUser.userId = user.id;                       			  
+           		  } 
+           		  spotifyUser.save(cb);    
+           	  });  			   
 		  }
-
 	  });
   }
 
