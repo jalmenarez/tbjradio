@@ -19,20 +19,34 @@ module.exports = {
   },
   
   createOrUpdate: function(options, cb){
+	  sails.log.debug('User :: createOrUpdate');
 	  // find user
-	  this.findOne({spotifyUserId: options.spotifyUserId}).exec(function (err, user) {
-		  if (err) return cb(err);
-		  if (!user){
+	  this.findOne({spotifyUserId: options.id}).exec(function (err, user) {
+		  if (err) { 
+			  sails.log.debug('error');
+			  sails.log.error(err);
+			  return cb(err);
+		  } else if (!user){
 			  // create user
+			  sails.log.debug('create user');
 			  User.create({
-                  spotifyUserId: options.spotifyUserId
+                  spotifyUserId: options.id
               }).exec(function (err, user) {
-            	  if (err) return cb(err);
-            	  cb(user);
+            	  if (err) {
+            		  sails.log.debug('error');
+        			  sails.log.error(err);
+            		  return cb(err);
+            	  }   
+            	  sails.log.debug('created user');
+            	  user.save(cb);           	  
               });
 		  }else {
 			  // update user
-			  //TODO completar metodo
+			  sails.log.debug('update user');
+			  user.spotifyUserId = options.id;
+			  sails.log.debug('updated user');
+			  //TODO agregar los datos restantes
+			  user.save(cb);			  
 		  }          			  
 	  });
   }
