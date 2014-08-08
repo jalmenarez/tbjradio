@@ -18,17 +18,7 @@
     "sails-disk": "0.9.0",
 	"sails-mongo": "0.9.8",    
     "sails-util": "0.10.3",
-    "spotify-web-api-node": "0.0.10"
-  },
-  "devDependencies": {
-    "grunt-assets-versioning": "^0.1.5",
-    "grunt-concurrent": "~0.4.1",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-filerev": "~0.2.1",
-    "grunt-newer": "~0.6.0",
-    "grunt-nodemon": "~0.2.0",
-    "grunt-usemin": "~2.3.0"
+    "spotify-web-api-node": "0.0.11"
   },
   "scripts": {
     "start": "node app.js",
