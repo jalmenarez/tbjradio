@@ -1,0 +1,379 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"proto",
+				"prototype"
+			],
+			[
+				"in",
+				"index"
+			],
+			[
+				"fa",
+				"flag"
+			],
+			[
+				"el",
+				"element"
+			],
+			[
+				"p",
+				"print"
+			],
+			[
+				"e",
+				"eArr"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/jalmenarez/Documents/GitHub/migration/package.json",
+			"settings":
+			{
+				"buffer_size": 1239,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/jalmenarez/Documents/GitHub/migration/config/adapters.js",
+			"settings":
+			{
+				"buffer_size": 971,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/config/adapters.js",
+		"/C/Users/jalmenarez/Documents/GitHub/testProject/api/controllers/UserController.js",
+		"/C/Users/jalmenarez/Documents/GitHub/testProject/api/models/User.js",
+		"/C/Users/jalmenarez/Documents/GitHub/testProject/package.json",
+		"/C/Users/jalmenarez/Documents/GitHub/testProject/config/env/development.js",
+		"/C/Users/jalmenarez/Documents/GitHub/testProject/config/connections.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/config/log.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/config/session.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/package.json",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/config/local.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/npm-debug.log",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio_/api/controllers/AdminController.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio_/api/controllers/SpotifyController.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio_/config/app.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio_/config/spotify.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/routes/spotify.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/app.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio_/package.json",
+		"/C/Users/jalmenarez/Documents/GitHub/myapp/bin/www",
+		"/C/Users/jalmenarez/Documents/GitHub/myapp/app.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/routes/users.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/bin/www",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio2/package.json",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio2/app.js",
+		"/C/Users/jalmenarez/Documents/GitHub/myapp/package.json",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio2/server.js",
+		"/C/Users/jalmenarez/Documents/GitHub/nodecellar/server.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/server.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/_api/controllers/AdminController.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/routes/admin.js",
+		"/C/Users/jalmenarez/Documents/GitHub/nodecellar/routes/wines.js",
+		"/C/Users/jalmenarez/Documents/GitHub/nodecellar/package.json",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/views/layout.ejs",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/js/playlists.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/api/controllers/AdminController.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/api/controllers/SpotifyController.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/views/admin/dashboard.ejs",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/js/socket/app.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/js/socket/sails.io.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/css/bootstrap.css",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/css/bootstrap.min.css",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/css/bootstrap-responsive.min.css",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/css/bootstrap-responsive.css",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/js/models/admin.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/js/main.js",
+		"/C/Users/jalmenarez/Documents/GitHub/tbjradio/assets/js/utils.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/web-api-auth-examples/authorization_code/app.js",
+		"/C/Program Files/nodejs/node_modules/npm/node_modules/glob/examples/usr-local.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio4_/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/api/models/Party.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/api/services/util.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/api/services/similar.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/app/js/components/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/config/adapters.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/app/js/models/party.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/app/js/trees/tracklist.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/app/js/main.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/app/README.md",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/.app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/config/application.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/partyon/server/config/adapters.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/api/controllers/MainController.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/modules/spotify.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/Enide-Studio-2014-011-20140228-win32/workspace/tbjradio/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/config/log.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/Enide-Studio-2014-011-20140228-win32/workspace/tbjradio/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/api/models/Spotify.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio2_/node_modules/spotify-web-api-node/src/spotify-web-api.js",
+		"/F/jalmenarez/tbjradio/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio2_/node_modules/spotify-web-api-node/examples/access-token-refresh.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio3_/node_modules/spotify-web-api-node/src/spotify-web-api.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello-world/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio3_/node_modules/express/index.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio3_/node_modules/express/lib/application.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio3_/node_modules/express/lib/express.js",
+		"/F/jalmenarez/tbjradio/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio3_/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio2_/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio_/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/testProject/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio3_/node_modules/express/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/express/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/express/routes/index.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/express/ReadMe.md",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/routes/index.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/node_modules/spotify-web-api-node/src/spotify-web-api.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/api/controllers/SpotifyController.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/config/routes.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/node_modules/sails/lib/app/index.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/node_modules/sails/lib/sails.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/node_modules/sails/lib/index.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/README.md",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello/server.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello/config/routes.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello/app/controllers/pagesController.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello/config/environments/development.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/hello/config/initializers/30_middleware.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/bin/www",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/connectors/spotify/web-api.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/routes/users.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/npm-debug.log",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/views/index.jade",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbjradio/public/stylesheets/style.styl",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/web-api-auth-examples-master/implicit_grant/public/index.html",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbj-radio/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbj-radio/package.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/web-api-auth-examples-master/implicit_grant/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/web-api-auth-examples-master/client_credentials/app.js",
+		"/C/Users/jalmenarez/Documents/Personal Files/Node.js/tbj-radio/package_.json",
+		"/C/Users/jalmenarez/Documents/Personal Files/Google App Engine/ud859-master/Lesson_2/000_Hello_Endpoints/pom.xml"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"body",
+			"img",
+			"image",
+			"img",
+			" _setCredential",
+			"setAccessToken",
+			"getAccessToken",
+			"AccessToken",
+			"getClientSecret()",
+			"stateKey"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/jalmenarez/Documents/GitHub/migration/package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1239,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								430,
+								441
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/jalmenarez/Documents/GitHub/migration/config/adapters.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 971,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								971,
+								971
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 224.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 43.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "tbjradio.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 244.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

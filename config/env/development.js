@@ -12,13 +12,44 @@
 
 module.exports = {
 
-  /***************************************************************************
-   * Set the default database connection for models in the development       *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
+    /***************************************************************************
+     * Set the default database connection for models in the development       *
+     * environment (see config/connections.js and config/models.js )           *
+     ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
+    // models: {
+    //   connection: 'someMongodbServer'
+    // }
+
+    log: {
+        level: "verbose"
+    },
+
+    connections: {
+        someMongodbServer: {
+            host: 'localhost',
+            port: 27017,
+            user: 'jalmenarez',
+            password: '12345',
+            database: 'tbjradiodb'
+        }
+    },
+
+    session: {
+        host: 'localhost',
+        port: 27017,
+        db: 'tbjradiodb',
+        collection: 'sessions',
+        username: 'jalmenarez',
+        password: '12345'
+    },
+
+    url_base: 'http://localhost:1337',
+
+    spotify: {
+        credentials: {
+            redirectUri: "http://localhost:1337/spotify/callback"
+        }
+    }
 
 };

@@ -31,9 +31,9 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // cookie: {
-  //   maxAge: 24 * 60 * 60 * 1000
-  // }
+   cookie: {
+     maxAge: 24 * 60 * 60 * 1000
+   },
 
   /***************************************************************************
   *                                                                          *
@@ -67,11 +67,11 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // adapter: 'mongo',
-  // host: 'localhost',
-  // port: 27017,
-  // db: 'sails',
-  // collection: 'sessions',
+   adapter: 'mongo',
+   host: 'kahana.mongohq.com',
+   port: 10006,
+   db: 'tbjradiodb',
+   collection: 'sessions',
 
   /***************************************************************************
   *                                                                          *
@@ -82,8 +82,8 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // username: '',
-  // password: '',
+   username: 'jalmenarez',
+   password: '12345'
   // auto_reconnect: false,
   // ssl: false,
   // stringify: true

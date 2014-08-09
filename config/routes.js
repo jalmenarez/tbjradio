@@ -46,4 +46,12 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  '/admin': 'AdminController.index',
+  '/admin/login': 'AdminController.login',
+  '/admin/dashboard': 'AdminController.dashboard',
+  '/admin/logout': 'AdminController.logout',
+  '/spotify/authorize': 'SpotifyController.authorize',
+  '/spotify/callback': 'SpotifyController.callback',
+  '/spotify/callback_result': 'SpotifyController.callback_result'
+
 };
