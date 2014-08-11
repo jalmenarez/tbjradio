@@ -9,7 +9,7 @@ Si no tienes instalado node.js (http://nodejs.org/) en tu computador tienes que 
 
 Se debe instalar el modulo de sails para lo cual se usa npm (https://www.npmjs.org/), el cual es el gestor de modulos de node el cual se instala cuando instalemos node.
 ``` bash
-npm -g install sails@0.9.16
+npm -g install sails@~0.10.3
 ```
 
 Despues de instalar las dependencias se entra a la carpeta del proyecto
