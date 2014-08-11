@@ -172,6 +172,7 @@ module.exports = {
           if (req.session.spotifyUser && req.session.spotifyUser.id) {
               webApi.getUserPlaylists(req.session.spotifyUser.id)
                   .then(function (playlists) {
+                	  //TODO solo devolver las playlists propias del usuario
                       return res.json({
                           result: 'OK',
                           playlists: playlists
