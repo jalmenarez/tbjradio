@@ -6,11 +6,6 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-<<<<<<< HEAD
-=======
-var async = require('async');
-
->>>>>>> ea379a853466b0fbc99eedbd39a15a03d034a2dc
 module.exports = {
 
   attributes: {
@@ -36,11 +31,7 @@ module.exports = {
   },
 
   createOrUpdateAll: function(items, cb){
-<<<<<<< HEAD
   	sails.log.info('Playlist :: createOrUpdateAll');
-=======
-  	sails.log.debug('Playlist :: createOrUpdateAll');
->>>>>>> ea379a853466b0fbc99eedbd39a15a03d034a2dc
   	async.each(items, function( item, callback) {
   		Playlist.findOne({ id: item.id }).exec(function (err, playlist) {
   			if (!err && !playlist) {
@@ -80,11 +71,7 @@ module.exports = {
   		if(err) {
   			sails.log.error('An item failed to process');
   		} else {
-<<<<<<< HEAD
   		    sails.log.info('All items have been processed successfully');
-=======
-  		    sails.log.debug('All items have been processed successfully');
->>>>>>> ea379a853466b0fbc99eedbd39a15a03d034a2dc
   		    cb();
   		}
   	});    	
