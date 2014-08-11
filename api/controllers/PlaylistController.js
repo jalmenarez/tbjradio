@@ -90,7 +90,7 @@ module.exports = {
      *    `/playlist/synchronize`
      */
     synchronize: function (req, res) {
-        sails.log.debug('/playlist/synchronize');
+        sails.log.info('/playlist/synchronize');
         var webApi = new SpotifyWebApi(sails.config.spotify.credentials);
         if (SpotifyService.validateTokens(req, webApi)) {
             if (req.session.spotifyUser && req.session.spotifyUser.id) {
@@ -103,6 +103,7 @@ module.exports = {
                         var offset = playlists.offset;
                         var previous = playlists.previous;
                         var href = playlists.href;
+                        //TODO solo agregar las playlists propias del usuario
                         Playlist.createOrUpdateAll(playlists.items, function(err){
                         	if(err) {
                         		return res.json({
