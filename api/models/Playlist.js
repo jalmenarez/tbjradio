@@ -6,8 +6,6 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-var async = require('async');
-
 module.exports = {
 
   attributes: {
@@ -33,7 +31,7 @@ module.exports = {
   },
 
   createOrUpdateAll: function(items, cb){
-  	sails.log.debug('Playlist :: createOrUpdateAll');
+  	sails.log.info('Playlist :: createOrUpdateAll');
   	async.each(items, function( item, callback) {
   		Playlist.findOne({ id: item.id }).exec(function (err, playlist) {
   			if (!err && !playlist) {
@@ -73,7 +71,7 @@ module.exports = {
   		if(err) {
   			sails.log.error('An item failed to process');
   		} else {
-  		    sails.log.debug('All items have been processed successfully');
+  		    sails.log.info('All items have been processed successfully');
   		    cb();
   		}
   	});    	
