@@ -83,6 +83,14 @@ module.exports = {
                               }
                               res.redirect(redirect_url);
                           });
+                      } else {
+                    	  if(error) sails.log.error(error);
+                    	  if(body) sails.log.error(body);
+                    	  res.redirect(redirect_url +
+                                  querystring.stringify({
+                                      error: 'NO_PROFILE'
+                                  })
+                          );
                       }
                   });
               } else {
