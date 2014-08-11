@@ -11,7 +11,7 @@ Here is an example locale stringfile for the Spanish language (`config/locales/e
 ```json
 {
     "Hello!": "Hola!",
-    "Hello %s, how are you today?": "Â¿Hola %s, como estas?",
+    "Hello %s, how are you today?": "¿Hola %s, como estas?",
 }
 ```
 ## Usage

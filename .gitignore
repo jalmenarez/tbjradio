@@ -80,7 +80,7 @@ bower_components
 ################################################
 .tmp
 dump.rdb
-www
+
 
 
 
@@ -116,4 +116,3 @@ npm-debug.log
 nbproject
 .idea
 .node_history
-.project
