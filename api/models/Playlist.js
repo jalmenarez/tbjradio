@@ -22,11 +22,18 @@ module.exports = {
     owner: 'json',
     uri: 'string',
     href: 'string',
-    
-    // Add a reference to SpotifyUser
-    spotifyUserId: {
-          type: 'string'
-    }      
+
+    // a reference to SpotifyUser
+    spotifyUser: {
+          model: 'spotifyuser'
+    },
+
+    // a reference to Track
+    tracks: {
+        collection: 'track',
+        via: 'includedIn',
+        dominant: true
+    }
 
   },
 

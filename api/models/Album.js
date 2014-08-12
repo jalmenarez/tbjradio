@@ -8,7 +8,18 @@
 module.exports = {
 
     attributes: {
-        name: 'string'
+
+        id: {
+            type: 'string',
+            primaryKey: true
+        },
+
+        name: 'string',
+
+        tracks: {
+            collection: 'track',
+            via: 'album'
+        }
     }
 
 };

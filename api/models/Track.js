@@ -9,6 +9,28 @@ module.exports = {
 
   attributes: {
 
+      id: {
+          type: 'string',
+          primaryKey: true
+      },
+
+      name: 'string',
+
+      album: {
+        model: 'album'
+      },
+
+      artists: {
+        collection: 'artist',
+        via: 'tracks',
+        dominant: true
+      },
+
+      includedIn: {
+          collection: 'playlist',
+          via: 'tracks'
+      }
+
   }
 };
 

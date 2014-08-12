@@ -9,6 +9,16 @@ module.exports = {
 
   attributes: {
 
+      id: {
+          type: 'string',
+          primaryKey: true
+      },
+
+      tracks: {
+          collection: 'track',
+          via: 'artists'
+      }
+
   }
 };
 
