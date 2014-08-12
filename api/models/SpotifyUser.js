@@ -23,8 +23,8 @@ module.exports = {
       uri: 'string',
 
       // a reference to User
-      userId: {
-          type: 'integer'
+      user: {
+          model: 'user'
       },
 
       images: {
@@ -70,7 +70,7 @@ module.exports = {
                    			  sails.log.error("User.createOrUpdate void answer");
                    		  } else {
                    			sails.log.info("updated spotifyUser");
-                   		    spotifyUser.userId = user.id;                       			  
+                   		    spotifyUser.user = user.id;
                    		  } 
                    		  spotifyUser.save(cb);    
                    	  });
@@ -94,7 +94,7 @@ module.exports = {
            			  sails.log.error("User.createOrUpdate void answer");
            		  } else {
            			sails.log.info("updated spotifyUser");
-           		    spotifyUser.userId = user.id;                       			  
+           		    spotifyUser.user = user.id;
            		  } 
            		  spotifyUser.save(cb);    
            	  });  			   
