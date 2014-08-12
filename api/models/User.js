@@ -11,9 +11,12 @@ module.exports = {
   attributes: {
 	  firstName: 'string',
 	  lastName: 'string',
+
+      // a reference to spotifyUser
       spotifyUser: {
           model: 'spotifyuser'
       },
+
       isAdmin: 'boolean',
 
       fullName: function() {
