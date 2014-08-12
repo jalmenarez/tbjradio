@@ -11,7 +11,9 @@ module.exports = {
   attributes: {
 	  firstName: 'string',
 	  lastName: 'string',
-      spotifyUserId: 'string',
+      spotifyUser: {
+          model: 'spotifyuser'
+      },
       isAdmin: 'boolean',
 
       fullName: function() {
@@ -23,14 +25,14 @@ module.exports = {
   createOrUpdate: function(options, cb){
 	  sails.log.info('User :: createOrUpdate');
 	  // find user
-	  this.findOne({spotifyUserId: options.id}).exec(function (err, user) {
+	  this.findOne({spotifyUser: options.id}).exec(function (err, user) {
 		  if (err) { 
 			  return cb(err);
 		  } else if (!user){
 			  // create user
 			  sails.log.info('create user');
 			  User.create({
-                  spotifyUserId: options.id
+                  spotifyUser: options.id
                   //TODO agregar los datos restantes
               }).exec(function (err, user) {
             	  if (err) {
@@ -42,7 +44,7 @@ module.exports = {
 		  }else {
 			  // update user
 			  sails.log.info('update user');
-			  user.spotifyUserId = options.id;
+			  user.spotifyUser = options.id;
 			  sails.log.info('updated user');
 			  //TODO agregar los datos restantes
 			  user.save(cb);			  
