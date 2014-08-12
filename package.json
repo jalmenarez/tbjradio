@@ -1,9 +1,8 @@
 {
   "name": "tbjradio",
   "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
-  "keywords": [],
+  "version": "0.0.1-41",
+  "description": "It's just a demo app",
   "dependencies": {
     "sails": "~0.10.3",
     "spotify-web-api-node": "~0.0.11",
@@ -34,8 +33,15 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/anonymous node/sails user/tbjradio.git"
+    "url": "git@github.com:jalmenarez/tbjradio.git"
   },
-  "author": "anonymous node/sails user",
-  "license": ""
+  "author": {
+	  "name": "Jose Almenarez",
+	  "url": "https://github.com/jalmenarez/"
+  },
+  "license": "",
+  "subdomain": "tbjradio",
+  "engines": {
+	  "node": "0.10.x"
+  }
 }

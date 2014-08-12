@@ -83,6 +83,14 @@ module.exports = {
                               }
                               res.redirect(redirect_url);
                           });
+                      } else {
+                    	  if(error) sails.log.error(error);
+                    	  if(body) sails.log.error(body);
+                    	  res.redirect(redirect_url +
+                                  querystring.stringify({
+                                      error: 'NO_PROFILE'
+                                  })
+                          );
                       }
                   });
               } else {
@@ -164,6 +172,7 @@ module.exports = {
           if (req.session.spotifyUser && req.session.spotifyUser.id) {
               webApi.getUserPlaylists(req.session.spotifyUser.id)
                   .then(function (playlists) {
+                	  //TODO solo devolver las playlists propias del usuario
                       return res.json({
                           result: 'OK',
                           playlists: playlists
@@ -227,4 +236,3 @@ module.exports = {
       }
   }
 };
-
