@@ -16,16 +16,19 @@ module.exports = {
 
       name: 'string',
 
+      // a reference to Album
       album: {
         model: 'album'
       },
 
+      // a reference to Artist
       artists: {
         collection: 'artist',
         via: 'tracks',
         dominant: true
       },
 
+      // a reference to Playlist
       includedIn: {
           collection: 'playlist',
           via: 'tracks'

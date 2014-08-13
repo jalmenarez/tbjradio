@@ -16,6 +16,7 @@ module.exports = {
 
         name: 'string',
 
+        // a reference to Track
         tracks: {
             collection: 'track',
             via: 'album'
