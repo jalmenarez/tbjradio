@@ -62,7 +62,7 @@ module.exports.connections = {
     port: 27017,
     user: 'jalmenarez',
     password: '12345',
-    database: 'tbjradio'
+    database: 'tbjradiodb'
   },
 
   /***************************************************************************
