@@ -57,6 +57,8 @@ module.exports.routes = {
   '/spotify/get_user_playlists': 'SpotifyController.get_user_playlists',
   '/spotify/get_user_playlist': 'SpotifyController.get_user_playlist',
 
-  '/playlist/synchronize': 'PlaylistController.synchronize'
+  '/playlists/synchronize': 'PlaylistController.synchronize',
+
+  '/tracks/synchronize': 'TrackController.synchronize'
 
 };
