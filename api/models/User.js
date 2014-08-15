@@ -12,7 +12,7 @@ module.exports = {
 	  firstName: 'string',
 	  lastName: 'string',
 
-      // a reference to spotifyUser
+      // a reference to SpotifyUser
       spotifyUser: {
           model: 'spotifyuser'
       },

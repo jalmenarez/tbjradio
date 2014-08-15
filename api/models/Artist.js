@@ -13,7 +13,8 @@ module.exports = {
           type: 'string',
           primaryKey: true
       },
-
+      
+      // a reference to Track
       tracks: {
           collection: 'track',
           via: 'artists'
