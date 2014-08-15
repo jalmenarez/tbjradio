@@ -71,20 +71,20 @@ module.exports = {
      *    `/playlist/get_all`
      */
     get_all: function (req, res) {
-        Playlist.find().exec(function(err, playlists){
-            if(!err){
+        Playlist.find().exec(function (err, playlists) {
+            if (!err) {
                 return res.json({
                     status: 'OK',
                     playlists: playlists
                 });
-            }else {
+            } else {
                 return res.json({
                     status: 'NOK'
                 });
             }
         });
     },
-    
+
     /**
      * Action blueprints:
      *    `/playlist/synchronize`
@@ -104,18 +104,18 @@ module.exports = {
                         var previous = playlists.previous;
                         var href = playlists.href;
                         //TODO solo agregar las playlists propias del usuario
-                        Playlist.createOrUpdateAll(playlists.items, req.session.spotifyUser.id, function(err){
-                        	if(err) {
-                        		return res.json({
+                        Playlist.createOrUpdateAll(playlists.items, req.session.spotifyUser.id, function (err) {
+                            if (err) {
+                                return res.json({
                                     result: 'NOK',
                                     error: err
                                 });
-                        	}else {
-                        		return res.json({
+                            } else {
+                                return res.json({
                                     result: 'OK'
                                 });
-                        	}
-                        });                       
+                            }
+                        });
                     }).catch(function (err) {
                         sails.log.error(err);
                         return res.json({
