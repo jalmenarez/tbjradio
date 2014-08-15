@@ -104,7 +104,7 @@ module.exports = {
                         var previous = playlists.previous;
                         var href = playlists.href;
                         //TODO solo agregar las playlists propias del usuario
-                        Playlist.createOrUpdateAll(playlists.items, function(err){
+                        Playlist.createOrUpdateAll(playlists.items, req.session.spotifyUser.id, function(err){
                         	if(err) {
                         		return res.json({
                                     result: 'NOK',
