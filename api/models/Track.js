@@ -74,7 +74,7 @@ module.exports = {
             });
         }, function (err) {
             if (err) {
-                sails.log.error('An item failed to process');
+                sails.log.error('An item failed to process', err);
             } else {
                 sails.log.info('All items have been processed successfully');
                 cb();
