@@ -59,6 +59,7 @@ module.exports.routes = {
 
   '/playlists/synchronize': 'PlaylistController.synchronize',
 
-  '/tracks/synchronize': 'TrackController.synchronize'
+  '/tracks/synchronize': 'TrackController.synchronize',
+  '/tracks/get': 'TrackController.get'
 
 };
