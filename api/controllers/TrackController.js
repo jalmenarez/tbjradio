@@ -13,7 +13,7 @@ module.exports = {
      * `TrackController.synchronize()`
      */
     synchronize: function (req, res) {
-        sails.log.info('/playlist/synchronize_tracks');
+        sails.log.info('/tracks/synchronize');
         var playlist_id = req.query.playlist_id;
         sails.log.debug('playlist_id: ' + playlist_id);
         var playlist_owner_id = req.query.playlist_owner_id;
@@ -46,7 +46,7 @@ module.exports = {
                             } else {
                                 return res.json({
                                     result: 'OK',
-                                    page: page,
+                                    page: parseInt(page),
                                     pages: pages
                                 });
                             }
@@ -73,5 +73,18 @@ module.exports = {
                 error: error
             });
         }
+    },
+
+    get: function(req, res){
+        var page = req.query.page ? req.query.page : 1;
+        sails.log.debug('page: ' + playlist_owner_id);
+        var limit = 100;
+        var skip = ((page - 1) * limit);
+
+        Track.find( skip: skip, limit: limit }, function(err, tracks) {
+            if(err) return res.json({ status: 'NOK', error: err });
+            return res.json({status: 'OK', data: tracks});
+        });
     }
+
 };
