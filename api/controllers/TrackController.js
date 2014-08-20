@@ -81,10 +81,12 @@ module.exports = {
         sails.log.debug('page: ' + page);
         var limit = 100;
         var skip = ((page - 1) * limit);
+        var total = Track.find({}).count();
+        var pages = Math.round((total / limit) + 1);
 
         Track.find({skip: skip, limit: limit }, function(err, tracks) {
             if(err) return res.json({ status: 'NOK', error: err });
-            return res.json({status: 'OK', data: tracks, page: parseInt(page)});
+            return res.json({status: 'OK', page: parseInt(page), pages: pages, data: tracks});
         });
     }
 
