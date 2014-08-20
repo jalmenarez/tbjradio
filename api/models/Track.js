@@ -40,6 +40,7 @@ module.exports = {
         sails.log.info('Track :: createOrUpdateAll');
         async.each(items, function (item, callback) {
             //TODO registrar mas informacion
+            if(item.track.id.length > 0){
             Track.findOne({ id: item.track.id }).exec(function (err, track) {
                 if (!err && !track) {
                     // create
@@ -72,6 +73,10 @@ module.exports = {
                     callback(err);
                 }
             });
+            } else {
+                sails.log.error("track.id: "+item.track.id);
+                callback("track.id: "+item.track.id);
+            }
         }, function (err) {
             if (err) {
                 sails.log.error('An item failed to process', err);
