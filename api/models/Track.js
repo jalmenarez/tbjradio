@@ -9,9 +9,8 @@ module.exports = {
 
     attributes: {
 
-        id: {
-            type: 'string',
-            primaryKey: true
+        spotifyId: {
+            type: 'string'
         },
 
         name: 'string',
@@ -41,12 +40,12 @@ module.exports = {
         async.each(items, function (item, callback) {
             //TODO registrar mas informacion
             if(item.track != null && item.track.id != null && item.track.id.length > 0){
-            Track.findOne({ id: item.track.id }).exec(function (err, track) {
+            Track.findOne({ spotifyId: item.track.id }).exec(function (err, track) {
                 if (!err && !track) {
                     // create
                     Track.create({
                         name: item.track.name,
-                        id: item.track.id
+                        spotifyId: item.track.id
                     }).exec(function (err, track) {
                         if (!err) {
                             callback();
@@ -57,7 +56,7 @@ module.exports = {
                     });
                 } else if (!err) {
                     // update
-                    Track.update({ id: item.track.id },
+                    Track.update({ spotifyId: item.track.id },
                         {
                             name: item.track.name
                         }).exec(function (err, track) {
@@ -74,7 +73,8 @@ module.exports = {
                 }
             });
             } else {
-                sails.log.error("track: "+JSON.stringify(item.track));
+                // No se procesan por el momento lo que no tenga id.
+                sails.log.debug('track: '+JSON.stringify(item.track));
                 callback();
             }
         }, function (err) {
