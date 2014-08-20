@@ -40,7 +40,7 @@ module.exports = {
         sails.log.info('Track :: createOrUpdateAll');
         async.each(items, function (item, callback) {
             //TODO registrar mas informacion
-            if(item.track.id.length > 0){
+            if(item.track != null && item.track.id != null && item.track.id.length > 0){
             Track.findOne({ id: item.track.id }).exec(function (err, track) {
                 if (!err && !track) {
                     // create
@@ -74,8 +74,8 @@ module.exports = {
                 }
             });
             } else {
-                sails.log.error("track.id: "+item.track.id);
-                callback("track.id: "+item.track.id);
+                sails.log.error("track: "+item.track);
+                callback("track.id: "+item.track);
             }
         }, function (err) {
             if (err) {
