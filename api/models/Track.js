@@ -74,15 +74,16 @@ module.exports = {
                 }
             });
             } else {
-                sails.log.error("track: "+item.track);
-                callback("track.id: "+item.track);
+                sails.log.error("track: "+JSON.stringify(item.track));
+                callback("track: "+JSON.stringify(item.track));
             }
         }, function (err) {
             if (err) {
                 sails.log.error('An item failed to process', err);
+                cb(err);
             } else {
                 sails.log.info('All items have been processed successfully');
-                cb();
+                cb();                
             }
         });
 
