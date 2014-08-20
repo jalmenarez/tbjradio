@@ -22,26 +22,7 @@ module.exports = {
     // }
 
     log: {
-        level: "verbose"
-    },
-
-    connections: {
-        someMongodbServer: {
-            host: 'localhost',
-            port: 27017,
-            user: 'jalmenarez',
-            password: '12345',
-            database: 'tbjradiodb'
-        }
-    },
-
-    session: {
-        host: 'localhost',
-        port: 27017,
-        db: 'tbjradiodb',
-        collection: 'sessions',
-        username: 'jalmenarez',
-        password: '12345'
+        level: "info"
     },
 
     url_base: 'http://localhost:1337',
