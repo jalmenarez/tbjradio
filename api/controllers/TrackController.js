@@ -78,13 +78,13 @@ module.exports = {
     get: function(req, res){
         sails.log.info('/tracks/get');
         var page = req.query.page ? req.query.page : 1;
-        sails.log.debug('page: ' + playlist_owner_id);
+        sails.log.debug('page: ' + page);
         var limit = 100;
         var skip = ((page - 1) * limit);
 
         Track.find({skip: skip, limit: limit }, function(err, tracks) {
             if(err) return res.json({ status: 'NOK', error: err });
-            return res.json({status: 'OK', data: tracks});
+            return res.json({status: 'OK', data: tracks, page: parseInt(page)});
         });
     }
 
