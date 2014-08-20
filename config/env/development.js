@@ -21,16 +21,16 @@ module.exports = {
     //   connection: 'someMongodbServer'
     // }
 
-    log: {
-        level: "info"
-    },
+    // log: {
+    //     level: "info"
+    // },
 
-    url_base: 'http://localhost:1337',
+    // url_base: 'http://localhost:1337',
 
-    spotify: {
-        credentials: {
-            redirectUri: "http://localhost:1337/spotify/callback"
-        }
-    }
+    // spotify: {
+    //     credentials: {
+    //         redirectUri: "http://localhost:1337/spotify/callback"
+    //     }
+    // }
 
 };
