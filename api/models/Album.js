@@ -9,9 +9,8 @@ module.exports = {
 
     attributes: {
 
-        id: {
-            type: 'string',
-            primaryKey: true
+        spotifyId: {
+            type: 'string'
         },
 
         name: 'string',

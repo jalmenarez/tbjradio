@@ -43,11 +43,12 @@ module.exports = {
             Track.findOne({ spotifyId: item.track.id }).exec(function (err, track) {
                 if (!err && !track) {
                     // create
+                    //TODO createOrUpdate Album
                     Track.create({
                         name: item.track.name,
                         spotifyId: item.track.id
                     }).exec(function (err, track) {
-                        if (!err) {
+                        if (!err) {                            
                             callback();
                         } else {
                             sails.log.error('error creating track', err);
@@ -56,6 +57,7 @@ module.exports = {
                     });
                 } else if (!err) {
                     // update
+                    //TODO createOrUpdate Album
                     Track.update({ spotifyId: item.track.id },
                         {
                             name: item.track.name
