@@ -6,11 +6,22 @@
  */
 
 module.exports = {
-
+		
+	identity: 'album',	
+	
+	autoPK: false,
+	
     attributes: {
+    	
+    	id: {
+    		type: 'integer',
+    		autoIncrement: true,
+    		primaryKey: true
+    	},
 
         spotifyId: {
-            type: 'string'
+            type: 'string',
+            unique: true
         },
 
         name: 'string',
