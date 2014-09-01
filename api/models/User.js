@@ -8,10 +8,6 @@
 
 module.exports = {
   
-  identity: 'user',	
-  
-  autoPK: false,
-	
   attributes: {
 	  
 	  id: {
@@ -39,7 +35,7 @@ module.exports = {
   createOrUpdate: function(options, cb){
 	  sails.log.info('User :: createOrUpdate');
 	  // find user
-	  this.findOne({spotifyUser: options.id}).exec(function (err, user) {
+	  User.findOne({spotifyUser: options.id}).exec(function (err, user) {
 		  if (err) { 
 			  return cb(err);
 		  } else if (!user){
@@ -53,7 +49,7 @@ module.exports = {
             		  return cb(err);
             	  }   
             	  sails.log.info('created user');
-            	  user.save(cb);           	  
+            	  cb(null, user);          	  
               });
 		  }else {
 			  // update user
@@ -61,7 +57,7 @@ module.exports = {
 			  user.spotifyUser = options.id;
 			  sails.log.info('updated user');
 			  //TODO agregar los datos restantes
-			  user.save(cb);			  
+			  cb(null, user);  			  
 		  }          			  
 	  });
   }
