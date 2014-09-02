@@ -7,8 +7,19 @@
  */
 
 module.exports = {
-
+  
+  identity: 'user',	
+  
+  autoPK: false,
+	
   attributes: {
+	  
+	  id: {
+  		type: 'integer',
+  		autoIncrement: true,
+  		primaryKey: true
+  	  },
+	  
 	  firstName: 'string',
 	  lastName: 'string',
 
