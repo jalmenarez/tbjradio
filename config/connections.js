@@ -58,11 +58,11 @@ module.exports.connections = {
   ***************************************************************************/
   mongodbServer: {
     adapter: 'sails-mongo',
-    host: 'localhost',
-    port: 27017,
+    host: 'kahana.mongohq.com',
+    port: 10056,
     user: 'jalmenarez',
     password: '12345',
-    database: 'tbjradiodb'
+    database: 'app28681553'
   },
 
   /***************************************************************************

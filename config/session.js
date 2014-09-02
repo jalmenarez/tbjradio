@@ -68,9 +68,9 @@ module.exports.session = {
   ***************************************************************************/
 
    adapter: 'mongo',
-   host: 'localhost',
-   port: 27017,
-   db: 'tbjradiodb',
+   host: 'kahana.mongohq.com',
+   port: 10056,
+   db: 'app28681553',
    collection: 'sessions',
 
   /***************************************************************************
