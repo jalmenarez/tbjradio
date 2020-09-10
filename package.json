@@ -7,7 +7,7 @@
     "sails": "~0.10.5",
     "spotify-web-api-node": "~1.0.0",
     "sails-mongo": "~0.10.4",
-    "request": "~2.40.0",
+    "request": "~2.88.2",
     "connect-mongo": "0.4.1",
     "sails-disk": "~0.10.3",
     "rc": "~0.5.1",
